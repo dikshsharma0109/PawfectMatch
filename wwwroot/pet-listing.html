@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt a Pet in Ahmedabad - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+
+            <!-- Logo -->
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search pets..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- Menu -->
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link active">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="orders.html" class="nav-link">My Orders</a></li>
+            </ul>
+
+            <!-- Auth Buttons -->
+            <div class="nav-auth" id="navAuth">
+                <a href="login.html" class="btn btn-dark">Log in</a>
+                <a href="register.html" class="btn btn-outline">Sign up</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background: linear-gradient(135deg, rgba(108, 92, 231, 0.9), rgba(0, 184, 148, 0.85)), url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1920&q=80') center/cover no-repeat; padding: 100px 0 80px; color: white; position: relative; overflow: hidden;">
+        <div class="container" style="position: relative; z-index: 2;">
+            <h1 style="font-size: 2.8rem; margin-bottom: 0.5rem; font-weight: 700; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">Find Your Perfect Companion in Ahmedabad</h1>
+            <p style="opacity: 0.95; font-size: 1.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                <i class="fas fa-map-marker-alt"></i> Browse pets available for adoption from verified pet parents in Ahmedabad
+            </p>
+        </div>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to top, var(--light-color), transparent); z-index: 1;"></div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="section" style="background: var(--light-color);">
+        <div class="container">
+            <!-- Location Info Banner -->
+            <div class="location-banner" style="background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(0, 184, 148, 0.1)); padding: var(--spacing-md) var(--spacing-lg); border-radius: var(--radius-md); margin-bottom: var(--spacing-xl); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--spacing-md);">
+                <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary-color); font-size: 24px;"></i>
+                    <div>
+                        <strong style="color: var(--dark-color);">Showing pets in Ahmedabad, Gujarat</strong>
+                        <p style="font-size: var(--text-sm); color: var(--gray-dark); margin: 0;">Connect with local pet parents in your city</p>
+                    </div>
+                </div>
+                <a href="add-pet.html" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> List Your Pet
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-container" style="background: white; padding: 40px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-xl); box-shadow: var(--shadow-sm);">
+                <div class="pets-filters">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All Pets</button>
+                        <button class="filter-tab" data-filter="dog">
+                            <i class="fas fa-dog"></i> Dogs
+                        </button>
+                        <button class="filter-tab" data-filter="cat">
+                            <i class="fas fa-cat"></i> Cats
+                        </button>
+                        <button class="filter-tab" data-filter="bird">
+                            <i class="fas fa-dove"></i> Birds
+                        </button>
+                        <button class="filter-tab" data-filter="rabbit">
+                            <i class="fas fa-rabbit"></i> Rabbits
+                        </button>
+                        <button class="filter-tab" data-filter="other">
+                            <i class="fas fa-paw"></i> Others
+                        </button>
+                    </div>
+
+                    <div class="filter-tabs" style="margin-left: auto;">
+                        <button class="filter-tab active" data-price-filter="all">All</button>
+                        <button class="filter-tab" data-price-filter="free">
+                            <i class="fas fa-heart"></i> Free
+                        </button>
+                        <button class="filter-tab" data-price-filter="paid">
+                            <i class="fas fa-rupee-sign"></i> Paid
+                        </button>
+                    </div>
+
+                    <div class="filter-search" style="flex: 1; max-width: 400px;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="petSearchInput" placeholder="Search by name, breed...">
+                    </div>
+                </div>
+
+                <!-- Advanced Filters -->
+                <div class="advanced-filters" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--gray-light);">
+                    <div class="form-group" style="margin: 0;">
+                        <select class="form-control" id="filterGender" style="padding: 12px 16px;">
+                            <option value="">All Genders</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <select class="form-control" id="filterAge" style="padding: 12px 16px;">
+                            <option value="">All Ages</option>
+                            <option value="0-3">Baby (0-3 months)</option>
+                            <option value="3-12">Young (3-12 months)</option>
+                            <option value="12-36">Adult (1-3 years)</option>
+                            <option value="36+">Senior (3+ years)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <select class="form-control" id="filterSize" style="padding: 12px 16px;">
+                            <option value="">All Sizes</option>
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <select class="form-control" id="filterArea" style="padding: 12px 16px;">
+                            <option value="">All Areas in Ahmedabad</option>
+                            <option value="Satellite">Satellite</option>
+                            <option value="Vastrapur">Vastrapur</option>
+                            <option value="Bodakdev">Bodakdev</option>
+                            <option value="Prahlad Nagar">Prahlad Nagar</option>
+                            <option value="SG Highway">SG Highway</option>
+                            <option value="Navrangpura">Navrangpura</option>
+                            <option value="Paldi">Paldi</option>
+                            <option value="Maninagar">Maninagar</option>
+                            <option value="Chandkheda">Chandkheda</option>
+                            <option value="Gota">Gota</option>
+                            <option value="Bopal">Bopal</option>
+                            <option value="Thaltej">Thaltej</option>
+                            <option value="Sola">Sola</option>
+                            <option value="Naranpura">Naranpura</option>
+                            <option value="Sabarmati">Sabarmati</option>
+                            <option value="Sarkhej">Sarkhej</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin: 0;">
+                        <select class="form-control" id="filterSort" style="padding: 12px 16px;">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Count -->
+            <div class="results-info" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                <p id="resultsCount" style="color: var(--gray-dark);">Loading pets in Ahmedabad...</p>
+            </div>
+
+            <!-- Pets Grid -->
+            <div class="pets-grid" id="petsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
+                <div class="loading-spinner" style="grid-column: 1/-1;">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="petsPagination"></div>
+        </div>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section section" style="background: white;">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title">Have a Pet to Rehome in Ahmedabad?</h2>
+                <p class="cta-text">Help your pet find a loving family in our city. List them on PawfectMatches for free!</p>
+                <div class="cta-buttons">
+                    <a href="add-pet.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-heart"></i> List Your Pet
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>PawfectMatches</span>
+                    </div>
+                    <p class="footer-about">Connecting loving pet parents with caring adopters in Ahmedabad.</p>
+                    <p style="color: var(--gray-medium); font-size: var(--text-sm); margin-top: var(--spacing-sm);">
+                        <i class="fas fa-map-marker-alt"></i> Serving Ahmedabad, Gujarat
+                    </p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="pet-listing.html" class="footer-link">Adopt a Pet</a></li>
+                        <li><a href="add-pet.html" class="footer-link">List Your Pet</a></li>
+                        <li><a href="shop.html" class="footer-link">Pet Shop</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">FAQs</a></li>
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 class="footer-title">Stay Updated</h4>
+                    <p>Get notified about new pets in Ahmedabad.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); Toast.success('Subscribed successfully!');">
+                        <input type="email" placeholder="Enter your email" class="form-control" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2024 PawfectMatches. All rights reserved. | Ahmedabad, Gujarat</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/pets.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Search bar functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', handleSearch);
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') handleSearch();
+                });
+            }
+
+            function handleSearch() {
+                const query = searchInput ? searchInput.value.trim() : '';
+
+                if (!query) return;
+
+                window.location.href = `pet-listing.html?search=${encodeURIComponent(query)}`;
+            }
+
+            // Handle URL search parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            
+            if (searchQuery) {
+                const petSearchInput = document.getElementById('petSearchInput');
+                if (petSearchInput) {
+                    petSearchInput.value = searchQuery;
+                    // Trigger search with the query
+                    setTimeout(() => filterPetsByName(searchQuery), 500);
+                }
+            }
+
+            // Add real-time search functionality to petSearchInput
+            const petSearchInput = document.getElementById('petSearchInput');
+            if (petSearchInput) {
+                petSearchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    filterPetsByName(query);
+                });
+            }
+
+            function filterPetsByName(query) {
+                if (!query) {
+                    PetManager.renderPets(PetManager.pets);
+                } else {
+                    const filteredPets = PetManager.pets.filter(pet => 
+                        pet.name.toLowerCase().includes(query) ||
+                        (pet.breed && pet.breed.toLowerCase().includes(query)) ||
+                        (pet.type && pet.type.toLowerCase().includes(query))
+                    );
+                    PetManager.renderPets(filteredPets);
+                }
+                
+                // Update count
+                const grid = document.getElementById('petsGrid');
+                const cards = grid.querySelectorAll('.pet-card');
+                document.getElementById('resultsCount').textContent = `Showing ${cards.length} pets in Ahmedabad`;
+            }
+
+            // Price filter tabs functionality
+            let currentPriceFilter = 'all';
+            const priceFilterTabs = document.querySelectorAll('[data-price-filter]');
+            
+            priceFilterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all price filter tabs
+                    priceFilterTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    // Update current filter
+                    currentPriceFilter = tab.dataset.priceFilter;
+                    // Re-render pets with filter
+                    filterPetsByPrice();
+                });
+            });
+
+            function filterPetsByPrice() {
+                if (currentPriceFilter === 'all') {
+                    PetManager.renderPets(PetManager.pets);
+                } else if (currentPriceFilter === 'free') {
+                    const freePets = PetManager.pets.filter(pet => !pet.price || pet.price === 0);
+                    PetManager.renderPets(freePets);
+                } else if (currentPriceFilter === 'paid') {
+                    const paidPets = PetManager.pets.filter(pet => pet.price && pet.price > 0);
+                    PetManager.renderPets(paidPets);
+                }
+                
+                // Update count
+                const grid = document.getElementById('petsGrid');
+                const cards = grid.querySelectorAll('.pet-card');
+                document.getElementById('resultsCount').textContent = `Showing ${cards.length} pets in Ahmedabad`;
+            }
+
+            // Pet loading with count update and price filtering
+            const originalLoadPets = PetManager.loadPets.bind(PetManager);
+            PetManager.loadPets = async function () {
+                await originalLoadPets();
+                // Apply current price filter after loading
+                if (currentPriceFilter !== 'all') {
+                    filterPetsByPrice();
+                }
+                const grid = document.getElementById('petsGrid');
+                const cards = grid.querySelectorAll('.pet-card');
+                document.getElementById('resultsCount').textContent = `Showing ${cards.length} pets in Ahmedabad`;
+            };
+        });
+    </script>
+</body>
+</html>

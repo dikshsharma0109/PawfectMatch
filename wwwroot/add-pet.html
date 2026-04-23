@@ -1,0 +1,494 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Pet for Adoption - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+            </ul>
+
+            <div class="nav-auth" id="navAuth">
+                <a href="cart.html" class="btn btn-outline cart-btn">
+                    Cart
+                    <span id="cartCount" class="cart-badge">0</span>
+                </a>
+                <a href="#" class="btn btn-dark" id="logoutBtn">Logout</a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1 class="form-title">List Your Pet for Adoption</h1>
+                    <p class="form-subtitle">Help your pet find a loving new home in Ahmedabad</p>
+                </div>
+
+                <!-- Location Badge -->
+                <div class="location-badge" style="background: linear-gradient(135deg, var(--primary-light), var(--secondary-light)); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-xl); display: flex; align-items: center; gap: var(--spacing-sm);">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary-color); font-size: 20px;"></i>
+                    <span style="font-weight: 600;">Currently serving Ahmedabad, Gujarat</span>
+                </div>
+
+                <form id="addPetForm">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-paw"></i> Basic Information
+                        </h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Pet Name *</label>
+                                <input type="text" class="form-control" id="petName" placeholder="Enter pet's name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Pet Type *</label>
+                                <select class="form-control" id="petType" required>
+                                    <option value="">Select type</option>
+                                    <option value="Dog">Dog</option>
+                                    <option value="Cat">Cat</option>
+                                    <option value="Bird">Bird</option>
+                                    <option value="Rabbit">Rabbit</option>
+                                    <option value="Fish">Fish</option>
+                                    <option value="Hamster">Hamster</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Breed *</label>
+                                <input type="text" class="form-control" id="petBreed" placeholder="e.g., Golden Retriever, Persian" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Color *</label>
+                                <input type="text" class="form-control" id="petColor" placeholder="e.g., Golden, White, Black" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Age (in months) *</label>
+                                <input type="number" class="form-control" id="petAge" min="1" max="240" placeholder="Enter age in months" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Gender *</label>
+                                <select class="form-control" id="petGender" required>
+                                    <option value="">Select gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Size *</label>
+                                <select class="form-control" id="petSize" required>
+                                    <option value="">Select size</option>
+                                    <option value="Small">Small (0-10 kg)</option>
+                                    <option value="Medium">Medium (10-25 kg)</option>
+                                    <option value="Large">Large (25-45 kg)</option>
+                                    <option value="Extra Large">Extra Large (45+ kg)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Area in Ahmedabad *</label>
+                                <select class="form-control" id="petLocation" required>
+                                    <option value="">Select area</option>
+                                    <option value="Ahmedabad - Satellite">Satellite</option>
+                                    <option value="Ahmedabad - Vastrapur">Vastrapur</option>
+                                    <option value="Ahmedabad - Bodakdev">Bodakdev</option>
+                                    <option value="Ahmedabad - Prahlad Nagar">Prahlad Nagar</option>
+                                    <option value="Ahmedabad - SG Highway">SG Highway</option>
+                                    <option value="Ahmedabad - Navrangpura">Navrangpura</option>
+                                    <option value="Ahmedabad - Paldi">Paldi</option>
+                                    <option value="Ahmedabad - Maninagar">Maninagar</option>
+                                    <option value="Ahmedabad - Chandkheda">Chandkheda</option>
+                                    <option value="Ahmedabad - Gota">Gota</option>
+                                    <option value="Ahmedabad - Bopal">Bopal</option>
+                                    <option value="Ahmedabad - South Bopal">South Bopal</option>
+                                    <option value="Ahmedabad - Thaltej">Thaltej</option>
+                                    <option value="Ahmedabad - Shilaj">Shilaj</option>
+                                    <option value="Ahmedabad - Ambawadi">Ambawadi</option>
+                                    <option value="Ahmedabad - Ashram Road">Ashram Road</option>
+                                    <option value="Ahmedabad - CG Road">CG Road</option>
+                                    <option value="Ahmedabad - Drive In Road">Drive In Road</option>
+                                    <option value="Ahmedabad - Ellis Bridge">Ellis Bridge</option>
+                                    <option value="Ahmedabad - Gulbai Tekra">Gulbai Tekra</option>
+                                    <option value="Ahmedabad - Helmet Circle">Helmet Circle</option>
+                                    <option value="Ahmedabad - Jodhpur">Jodhpur</option>
+                                    <option value="Ahmedabad - Juhapura">Juhapura</option>
+                                    <option value="Ahmedabad - Kankaria">Kankaria</option>
+                                    <option value="Ahmedabad - Memnagar">Memnagar</option>
+                                    <option value="Ahmedabad - Naranpura">Naranpura</option>
+                                    <option value="Ahmedabad - Naroda">Naroda</option>
+                                    <option value="Ahmedabad - New CG Road">New CG Road</option>
+                                    <option value="Ahmedabad - Nikol">Nikol</option>
+                                    <option value="Ahmedabad - Odhav">Odhav</option>
+                                    <option value="Ahmedabad - Sabarmati">Sabarmati</option>
+                                    <option value="Ahmedabad - Sarkhej">Sarkhej</option>
+                                    <option value="Ahmedabad - Shahibaug">Shahibaug</option>
+                                    <option value="Ahmedabad - Sola">Sola</option>
+                                    <option value="Ahmedabad - Vastral">Vastral</option>
+                                    <option value="Ahmedabad - Vejalpur">Vejalpur</option>
+                                    <option value="Ahmedabad - Other">Other Area</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Hidden field for city -->
+                        <input type="hidden" id="petCity" value="Ahmedabad">
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-rupee-sign"></i> Price
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-check" style="margin-bottom: 15px;">
+                                <input type="checkbox" id="isFreePet" onchange="togglePriceField()">
+                                <span>This pet is free for adoption</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" id="priceFieldGroup">
+                            <label class="form-label">Price (₹)</label>
+                            <input type="number" class="form-control" id="petPrice" placeholder="Enter price" min="0" step="1">
+                            <small class="text-muted">Leave empty if pet is free</small>
+                        </div>
+                    </div>
+
+                    <!-- Photos -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-camera"></i> Photos
+                        </h3>
+
+                        <div class="file-upload">
+                            <input type="file" id="petImages" accept="image/*" multiple>
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p class="file-upload-text">
+                                <span>Click to upload</span> or drag and drop<br>
+                                <small>PNG, JPG, WebP up to 5MB (Max 5 images)</small>
+                            </p>
+                        </div>
+
+                        <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-align-left"></i> Description
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-label">Tell us about your pet *</label>
+                            <textarea class="form-control" id="petDescription" rows="5"
+                                      placeholder="Describe your pet's personality, habits, what they like, any special needs, etc. (Minimum 50 characters)" required></textarea>
+                            <small class="text-muted">Minimum 50 characters</small>
+                        </div>
+                    </div>
+
+                    <!-- Health Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-heartbeat"></i> Health Information
+                        </h3>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-check">
+                                    <input type="checkbox" id="isNeutered">
+                                    <span>Neutered / Spayed</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-check">
+                                    <input type="checkbox" id="isHouseTrained">
+                                    <span>House Trained</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Good with:</label>
+                            <div class="flex gap-lg flex-wrap">
+                                <label class="form-check">
+                                    <input type="checkbox" name="goodWith" value="children">
+                                    <span>Children</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="goodWith" value="dogs">
+                                    <span>Dogs</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="goodWith" value="cats">
+                                    <span>Cats</span>
+                                </label>
+                                <label class="form-check">
+                                    <input type="checkbox" name="goodWith" value="seniors">
+                                    <span>Seniors</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vaccination Records -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-syringe"></i> Vaccination Records
+                        </h3>
+
+                        <div class="vaccination-form">
+                            <div id="vaccinationRows">
+                                <!-- Vaccination rows will be added dynamically -->
+                            </div>
+
+                            <div class="add-vaccination-btn" id="addVaccinationBtn">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Add Vaccination Record</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Submit -->
+                    <div class="form-section">
+                        <div class="form-group">
+                            <label class="form-check">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span>I confirm that all information provided is accurate and I am the rightful owner/guardian of this pet. I agree to the <a href="#" style="color: var(--primary-color);">Terms of Service</a>.</span>
+                            </label>
+                        </div>
+
+                        <div class="flex gap-md">
+                            <button type="button" class="btn btn-outline" onclick="history.back()">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+                                <i class="fas fa-paw"></i> List Pet for Adoption
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding: 0;">
+                <p class="footer-copyright">&copy; 2024 PawfectMatches. All rights reserved. | Serving Ahmedabad, Gujarat</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script src="js/pets.js"></script>
+    <script src="js/cart.js"></script>
+
+    <script>
+        // Toggle price field based on free checkbox
+        function togglePriceField() {
+            const isFree = document.getElementById('isFreePet').checked;
+            const priceFieldGroup = document.getElementById('priceFieldGroup');
+            const priceInput = document.getElementById('petPrice');
+
+            if (isFree) {
+                priceFieldGroup.style.display = 'none';
+                priceInput.value = '';
+            } else {
+                priceFieldGroup.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const form = document.getElementById('addPetForm');
+            const imagePreviewGrid = document.getElementById('imagePreviewGrid');
+            const vaccinationRows = document.getElementById('vaccinationRows');
+            let uploadedImages = [];
+
+            // Handle image upload
+            document.getElementById('petImages').addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                uploadedImages = [];
+                imagePreviewGrid.innerHTML = '';
+
+                files.forEach((file, index) => {
+                    if (index >= 5) return; // Max 5 images
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push(e.target.result);
+                        const preview = document.createElement('div');
+                        preview.className = 'image-preview-item';
+                        preview.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview">
+                            <button type="button" onclick="removeImage(${index})">×</button>
+                        `;
+                        imagePreviewGrid.appendChild(preview);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Add vaccination row
+            document.getElementById('addVaccinationBtn').addEventListener('click', () => {
+                const row = document.createElement('div');
+                row.className = 'vaccination-row';
+                row.innerHTML = `
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Vaccine Name</label>
+                            <input type="text" class="form-control vaccine-name" placeholder="e.g., Rabies">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control vaccine-date">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-control vaccine-status">
+                                <option value="Completed">Completed</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Due">Due</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+                vaccinationRows.appendChild(row);
+            });
+
+            // Form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                // Gather vaccination data
+                const vaccinations = [];
+                document.querySelectorAll('.vaccination-row').forEach(row => {
+                    const name = row.querySelector('.vaccine-name').value;
+                    const date = row.querySelector('.vaccine-date').value;
+                    const status = row.querySelector('.vaccine-status').value;
+                    if (name) {
+                        vaccinations.push({
+                            vaccineName: name,
+                            vaccinationDate: date ? new Date(date) : new Date(),
+                            status: status
+                        });
+                    }
+                });
+
+                // Gather good with checkboxes
+                const goodWith = [];
+                document.querySelectorAll('input[name="goodWith"]:checked').forEach(cb => {
+                    goodWith.push(cb.value);
+                });
+
+                const userData = Auth.getCurrentUser();
+                const userId = userData?.id || userData?.userId || userData?.UserId;
+
+                if (!userId) {
+                    alert('Please login to list a pet');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                console.log('User data:', userData);
+                console.log('UserId:', userId);
+
+                // Get price - if free checkbox is checked, price is 0
+                const isFree = document.getElementById('isFreePet').checked;
+                const price = isFree ? 0 : parseFloat(document.getElementById('petPrice').value) || 0;
+
+                const petData = {
+                    name: document.getElementById('petName').value,
+                    type: document.getElementById('petType').value,
+                    breed: document.getElementById('petBreed').value,
+                    age: parseInt(document.getElementById('petAge').value),
+                    gender: document.getElementById('petGender').value,
+                    size: document.getElementById('petSize').value,
+                    color: document.getElementById('petColor').value,
+                    description: document.getElementById('petDescription').value,
+                    location: document.getElementById('petLocation').value,
+                    isNeutered: document.getElementById('isNeutered').checked,
+                    isHouseTrained: document.getElementById('isHouseTrained').checked,
+                    goodWith: goodWith.join(', '),
+                    userId: userId,
+                    price: price, // Add price field
+                    images: uploadedImages,
+                    vaccinations: vaccinations
+                };
+
+                try {
+                    const response = await API.post('/api/Pets', petData);
+                    alert('Pet listed successfully!');
+                    window.location.href = 'pet-listing.html';
+                } catch (error) {
+                    console.error('Error adding pet:', error);
+                    alert('Failed to list pet. Please try again.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

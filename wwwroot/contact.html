@@ -1,0 +1,329 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PawfectMatches Ahmedabad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="contact.html" class="nav-link active">Contact</a></li>
+            </ul>
+
+            <div class="nav-auth" id="navAuth">
+                <a href="cart.html" class="btn btn-outline cart-btn">
+                    Cart
+                    <span id="cartCount" class="cart-badge">0</span>
+                </a>
+                <a href="login.html" class="btn btn-dark">Log in</a>
+                <a href="register.html" class="btn btn-outline">Sign up</a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background: var(--gradient-primary); padding: 120px 0 60px; color: white;">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Contact Us</h1>
+            <p style="opacity: 0.9;">We'd love to hear from you. Get in touch with our Ahmedabad team.</p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="section" style="background: var(--light-color);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl);">
+                <!-- Contact Form -->
+                <div style="background: white; padding: var(--spacing-2xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                    <h2 style="margin-bottom: var(--spacing-xl);">Send us a Message</h2>
+
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name *</label>
+                                <input type="text" class="form-control" id="contactFirstName" placeholder="Your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" id="contactLastName" placeholder="Your last name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="contactEmail" placeholder="your@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="contactPhone" placeholder="Your phone number">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Your Area in Ahmedabad</label>
+                            <select class="form-control" id="contactArea">
+                                <option value="">Select your area (optional)</option>
+                                <option value="Satellite">Satellite</option>
+                                <option value="Vastrapur">Vastrapur</option>
+                                <option value="Bodakdev">Bodakdev</option>
+                                <option value="Prahlad Nagar">Prahlad Nagar</option>
+                                <option value="SG Highway">SG Highway</option>
+                                <option value="Navrangpura">Navrangpura</option>
+                                <option value="Bopal">Bopal</option>
+                                <option value="Thaltej">Thaltej</option>
+                                <option value="Gota">Gota</option>
+                                <option value="Other">Other Area</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Subject *</label>
+                            <select class="form-control" id="contactSubject" required>
+                                <option value="">Select a topic</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="adoption">Adoption Question</option>
+                                <option value="shop">Shop/Order Issue</option>
+                                <option value="account">Account Help</option>
+                                <option value="report">Report a Problem</option>
+                                <option value="feedback">Feedback</option>
+                                <option value="partnership">Partnership</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Message *</label>
+                            <textarea class="form-control" id="contactMessage" rows="5" placeholder="How can we help you?" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <!-- Info Cards -->
+                    <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+                        <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--spacing-lg);">
+                            <div style="width: 60px; height: 60px; background: var(--primary-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-envelope" style="font-size: 24px; color: var(--primary-color);"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 4px;">Email Us</h3>
+                                <p style="color: var(--gray-dark);">support@pawfectmatches.com</p>
+                                <p style="color: var(--gray-dark);">ahmedabad@pawfectmatches.com</p>
+                            </div>
+                        </div>
+
+                        <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--spacing-lg);">
+                            <div style="width: 60px; height: 60px; background: rgba(0, 184, 148, 0.2); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-phone" style="font-size: 24px; color: var(--secondary-color);"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 4px;">Call Us</h3>
+                                <p style="color: var(--gray-dark);">+91 79 XXXX XXXX</p>
+                                <p style="color: var(--gray-dark);">+91 98765 43210</p>
+                            </div>
+                        </div>
+
+                        <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--spacing-lg);">
+                            <div style="width: 60px; height: 60px; background: rgba(253, 203, 110, 0.3); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-map-marker-alt" style="font-size: 24px; color: var(--accent-orange);"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 4px;">Our Office</h3>
+                                <p style="color: var(--gray-dark);">SG Highway, Ahmedabad</p>
+                                <p style="color: var(--gray-dark);">Gujarat - 380054</p>
+                            </div>
+                        </div>
+
+                        <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); display: flex; align-items: center; gap: var(--spacing-lg);">
+                            <div style="width: 60px; height: 60px; background: rgba(253, 121, 168, 0.2); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-clock" style="font-size: 24px; color: var(--accent-pink);"></i>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom: 4px;">Working Hours</h3>
+                                <p style="color: var(--gray-dark);">Mon - Sat: 10:00 AM - 7:00 PM</p>
+                                <p style="color: var(--gray-dark);">Sunday: 11:00 AM - 5:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); margin-top: var(--spacing-lg);">
+                        <h3 style="margin-bottom: var(--spacing-lg);">Follow Us</h3>
+                        <div style="display: flex; gap: var(--spacing-md);">
+                            <a href="#" style="width: 50px; height: 50px; background: var(--light-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--gray-dark); transition: var(--transition-fast);">
+                                <i class="fab fa-facebook-f" style="font-size: 20px;"></i>
+                            </a>
+                            <a href="#" style="width: 50px; height: 50px; background: var(--light-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--gray-dark); transition: var(--transition-fast);">
+                                <i class="fab fa-instagram" style="font-size: 20px;"></i>
+                            </a>
+                            <a href="#" style="width: 50px; height: 50px; background: var(--light-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--gray-dark); transition: var(--transition-fast);">
+                                <i class="fab fa-twitter" style="font-size: 20px;"></i>
+                            </a>
+                            <a href="#" style="width: 50px; height: 50px; background: var(--light-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--gray-dark); transition: var(--transition-fast);">
+                                <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div style="background: white; padding: var(--spacing-xl); border-radius: var(--radius-lg); margin-top: var(--spacing-lg);">
+                        <h3 style="margin-bottom: var(--spacing-lg);">Find Us in Ahmedabad</h3>
+                        <div style="background: var(--light-color); height: 200px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--gray-dark);">
+                            <div style="text-align: center;">
+                                <i class="fas fa-map-marked-alt" style="font-size: 48px; color: var(--primary-color); margin-bottom: var(--spacing-sm);"></i>
+                                <p>Map will be integrated here</p>
+                                <p style="font-size: var(--text-sm);">SG Highway, Ahmedabad</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Find quick answers to common questions about our Ahmedabad services</p>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="faq-item" style="background: var(--light-color); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); overflow: hidden;">
+                    <div class="faq-question" style="padding: var(--spacing-lg); cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.parentElement.classList.toggle('active'); this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                        <h4 style="margin: 0;">Do you only serve Ahmedabad?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="padding: 0 var(--spacing-lg) var(--spacing-lg); display: none;">
+                        <p style="color: var(--gray-dark);">Yes, currently PawfectMatches is focused on serving the Ahmedabad community. We connect local pet parents with adopters within the city to ensure easy meetups and smooth adoptions. We may expand to other cities in the future!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" style="background: var(--light-color); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); overflow: hidden;">
+                    <div class="faq-question" style="padding: var(--spacing-lg); cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                        <h4 style="margin: 0;">How do I adopt a pet in Ahmedabad?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="padding: 0 var(--spacing-lg) var(--spacing-lg); display: none;">
+                        <p style="color: var(--gray-dark);">Browse our available pets, select one you're interested in, and click "Request to Adopt". You'll be connected directly with the pet parent in Ahmedabad to discuss the adoption process and arrange a meetup.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" style="background: var(--light-color); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); overflow: hidden;">
+                    <div class="faq-question" style="padding: var(--spacing-lg); cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                        <h4 style="margin: 0;">Is delivery available for shop orders in Ahmedabad?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="padding: 0 var(--spacing-lg) var(--spacing-lg); display: none;">
+                        <p style="color: var(--gray-dark);">Yes! We deliver to all areas in Ahmedabad. Orders above ₹500 qualify for free delivery. Standard delivery takes 2-3 business days within the city.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" style="background: var(--light-color); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); overflow: hidden;">
+                    <div class="faq-question" style="padding: var(--spacing-lg); cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                        <h4 style="margin: 0;">Can I list my pet for adoption if I'm in Ahmedabad?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="padding: 0 var(--spacing-lg) var(--spacing-lg); display: none;">
+                        <p style="color: var(--gray-dark);">Absolutely! If you're in Ahmedabad and need to find a loving home for your pet, you can list them for free on PawfectMatches. Just create an account, fill in your pet's details, and we'll help you connect with potential adopters in the city.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" style="background: var(--light-color); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); overflow: hidden;">
+                    <div class="faq-question" style="padding: var(--spacing-lg); cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block';">
+                        <h4 style="margin: 0;">Which areas in Ahmedabad do you cover?</h4>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="padding: 0 var(--spacing-lg) var(--spacing-lg); display: none;">
+                        <p style="color: var(--gray-dark);">We cover all areas in Ahmedabad including Satellite, Vastrapur, Bodakdev, Prahlad Nagar, SG Highway, Navrangpura, Paldi, Maninagar, Chandkheda, Gota, Bopal, Thaltej, Shilaj, Naranpura, Sabarmati, and many more!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding: 0;">
+                <p class="footer-copyright">&copy; 2024 PawfectMatches. All rights reserved. | Proudly serving Ahmedabad, Gujarat</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Contact form
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = {
+                firstName: document.getElementById('contactFirstName').value,
+                lastName: document.getElementById('contactLastName').value,
+                email: document.getElementById('contactEmail').value,
+                phone: document.getElementById('contactPhone').value,
+                area: document.getElementById('contactArea').value,
+                subject: document.getElementById('contactSubject').value,
+                message: document.getElementById('contactMessage').value,
+                city: 'Ahmedabad'
+            };
+
+            console.log('Contact form submitted:', formData);
+            Toast.success('Thank you! Your message has been sent. We\'ll get back to you soon.');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

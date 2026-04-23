@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoption Requests - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ============ HEADER ============ -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+            </ul>
+
+            <div class="nav-auth" id="navAuth">
+                <a href="login.html" class="btn btn-dark">Log in</a>
+                <a href="register.html" class="btn btn-outline">Sign up</a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title"><i class="fas fa-heart" style="color: #ff6b6b;"></i> My Adoption Requests</h1>
+                <p class="section-subtitle">Track your pet adoption applications</p>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" style="text-align: center; padding: 40px;">
+                <div class="spinner"></div>
+                <p style="margin-top: 20px; color: #666;">Loading your adoption requests...</p>
+            </div>
+
+            <!-- Content -->
+            <div id="content" style="display: none;">
+                <!-- Empty State -->
+                <div id="empty" style="text-align: center; padding: 60px 20px; display: none;">
+                    <i class="fas fa-heart" style="font-size: 64px; color: #ddd; margin-bottom: 20px;"></i>
+                    <h2 style="color: #333; margin-bottom: 10px;">No Adoption Requests Yet</h2>
+                    <p style="color: #666; margin-bottom: 30px;">You haven't applied to adopt any pets yet. Browse available pets and submit your first adoption request!</p>
+                    <a href="pet-listing.html" class="btn btn-primary">Browse Pets</a>
+                </div>
+
+                <!-- Requests List -->
+                <div id="requests-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 PawfectMatches. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Auth.getCurrentUser();
+            
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+            const empty = document.getElementById('empty');
+            const requestsList = document.getElementById('requests-list');
+
+            try {
+                // Fetch adoption requests for the current user
+                const res = await API.get('/api/AdoptionRequests');
+                const allRequests = res.data || [];
+                
+                // Filter requests for the current user
+                const userRequests = allRequests.filter(req => 
+                    req.adopterId === user.id || req.adopter?.id === user.id
+                );
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+
+                if (userRequests.length === 0) {
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                // Render requests
+                requestsList.innerHTML = userRequests.map(req => {
+                    const pet = req.pet || {};
+                    const petImg = pet.primaryImage || pet.images?.[0] || 'images/dog.jpg';
+                    const petName = pet.name || 'Unknown Pet';
+                    const status = req.status || 'Pending';
+                    const statusClass = status === 'Accepted' ? 'status-accepted' : 
+                                      status === 'Rejected' ? 'status-rejected' : 'status-pending';
+                    const statusColor = status === 'Accepted' ? '#00b894' : 
+                                      status === 'Rejected' ? '#ff6b6b' : '#ffa502';
+
+                    return `
+                        <div class="product-card" style="display: flex; gap: 20px; padding: 20px;">
+                            <img src="${petImg}" alt="${petName}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0 0 10px 0; color: #333;">${petName}</h3>
+                                <p style="color: #666; margin: 5px 0;">${pet.breed || 'Unknown Breed'}</p>
+                                <p style="color: #666; margin: 5px 0;">${pet.age || 'Unknown Age'}</p>
+                                <div style="margin-top: 15px;">
+                                    <span style="padding: 6px 16px; background: ${statusColor}; color: white; border-radius: 20px; font-size: 14px; font-weight: 500;">
+                                        ${status}
+                                    </span>
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <small style="color: #999;">Requested on: ${new Date(req.createdAt || req.requestDate).toLocaleDateString()}</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading adoption requests:', error);
+                loading.style.display = 'none';
+                content.style.display = 'block';
+                empty.style.display = 'block';
+                empty.innerHTML = `
+                    <i class="fas fa-exclamation-circle" style="font-size: 64px; color: #ff6b6b; margin-bottom: 20px;"></i>
+                    <h2 style="color: #333; margin-bottom: 10px;">Error Loading Requests</h2>
+                    <p style="color: #666; margin-bottom: 30px;">Failed to load your adoption requests. Please try again later.</p>
+                    <button onclick="location.reload()" class="btn btn-primary">Try Again</button>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

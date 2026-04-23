@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Pawfect Matches</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f5f6fa;
+        }
+
+        .orders-container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .order-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .status {
+            color: green;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="orders-container">
+        <h1>📦 My Orders</h1>
+
+        <div id="ordersList"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/orders.js"></script>
+
+    <script>
+
+        function loadOrders() {
+            const orders = Orders.getOrders();
+            const container = document.getElementById("ordersList");
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                <div class="empty">
+                    <h2>No orders yet 😢</h2>
+                    <a href="shop.html">Start Shopping</a>
+                </div>
+            `;
+                return;
+            }
+
+            container.innerHTML = orders.map(order => {
+
+                let total = 0;
+
+                const itemsHTML = order.items.map(item => {
+                    const product = PRODUCTS.find(p => p.id === item.id);
+                    if (!product) return '';
+
+                    const itemTotal = product.price * item.quantity;
+                    total += itemTotal;
+
+                    return `
+                    <div class="item">
+                        <span>${product.name} x ${item.quantity}</span>
+                        <span>${Utils.formatPrice(itemTotal)}</span>
+                    </div>
+                `;
+                }).join('');
+
+                return `
+                <div class="order-card">
+
+                    <div class="order-header">
+                        <strong>${order.id}</strong>
+                        <span class="status">${order.status}</span>
+                    </div>
+
+                    <small>${Utils.formatDate(order.date)}</small>
+
+                    <hr>
+
+                    ${itemsHTML}
+
+                    <hr>
+
+                    <strong>Total: ${Utils.formatPrice(total)}</strong>
+
+                </div>
+            `;
+            }).join('');
+        }
+
+        document.addEventListener("DOMContentLoaded", loadOrders);
+
+    </script>
+
+</body>
+</html>

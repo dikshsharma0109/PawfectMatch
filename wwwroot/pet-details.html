@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Details - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f6f7;
+            margin: 0;
+            padding: 16px;
+            color: #1a1a1a;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #ff6b6b;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 640px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .image-section {
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+        .image-section img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .info-section {
+            padding: 16px;
+        }
+        .info-section h2 {
+            margin: 0 0 12px 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .info-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .info-row strong {
+            color: #666;
+            font-weight: 500;
+            min-width: 70px;
+        }
+        .info-row span {
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+        .description-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #4a4a4a;
+        }
+        .description-box strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .adopt-btn {
+            width: 100%;
+            padding: 10px 16px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+        .adopt-btn:hover {
+            background: #ff5252;
+        }
+        .adopt-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .owner-section {
+            margin-top: 12px;
+            padding: 14px 16px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .owner-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .owner-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .owner-row strong {
+            color: #666;
+            font-weight: 500;
+            min-width: 60px;
+        }
+        .owner-row span {
+            color: #1a1a1a;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        .error {
+            color: #dc3545;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <a href="pet-listing.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Pets
+        </a>
+
+        <div id="petDetails" class="card">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading...
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const container = document.getElementById("petDetails");
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+
+            if (!id) {
+                container.innerHTML = '<div class="error">Invalid Pet ID</div>';
+                return;
+            }
+
+            try {
+                const res = await API.get(`/api/Pets/${id}`);
+                const pet = res.data;
+
+                if (!pet) {
+                    container.innerHTML = '<div class="error">Pet not found</div>';
+                    return;
+                }
+
+                const currentUser = Auth.getCurrentUser();
+                const isOwner = currentUser && (currentUser.id === pet.owner?.userId || currentUser.id === pet.owner?.UserId);
+                const img = pet.images && pet.images.length > 0
+                    ? pet.images[0].imageUrl
+                    : "images/dog.jpg";
+
+                const actionButton = isOwner
+                    ? `<button id="manageBtn" class="adopt-btn" style="background: #6c5ce7;">
+                        <i class="fas fa-edit"></i> Manage Pet
+                       </button>`
+                    : `<button id="adoptBtn" class="adopt-btn">
+                        <i class="fas fa-heart"></i> Adopt Me
+                       </button>`;
+
+                container.innerHTML = `
+                    <div class="details-grid">
+                        <div class="image-section">
+                            <img src="${img}" alt="${pet.name}">
+                        </div>
+                        <div class="info-section">
+                            <h2>${pet.name}</h2>
+
+                            <div class="info-row">
+                                <strong>Breed:</strong>
+                                <span>${pet.breed || 'N/A'}</span>
+                            </div>
+                            <div class="info-row">
+                                <strong>Age:</strong>
+                                <span>${pet.age} years</span>
+                            </div>
+                            <div class="info-row">
+                                <strong>Gender:</strong>
+                                <span>${pet.gender}</span>
+                            </div>
+                            <div class="info-row">
+                                <strong>Location:</strong>
+                                <span>${pet.location}</span>
+                            </div>
+                            <div class="info-row">
+                                <strong>Size:</strong>
+                                <span>${pet.size || 'N/A'}</span>
+                            </div>
+                            <div class="info-row">
+                                <strong>Color:</strong>
+                                <span>${pet.color || 'N/A'}</span>
+                            </div>
+
+                            <div class="description-box">
+                                <strong>Description:</strong><br>
+                                ${pet.description || 'No description available.'}
+                            </div>
+
+                            ${actionButton}
+
+                            <div class="owner-section">
+                                <h3>Owner Details</h3>
+                                <div class="owner-row">
+                                    <strong>Name:</strong>
+                                    <span>${pet.owner ? (pet.owner.firstName || pet.owner.FirstName || '') + ' ' + (pet.owner.lastName || pet.owner.LastName || '') : 'N/A'}</span>
+                                </div>
+                                <div class="owner-row">
+                                    <strong>Phone:</strong>
+                                    <span>${pet.owner ? (pet.owner.phone || pet.owner.Phone || 'N/A') : 'N/A'}</span>
+                                </div>
+                                <div class="owner-row">
+                                    <strong>Email:</strong>
+                                    <span>${pet.owner ? (pet.owner.email || pet.owner.Email || 'N/A') : 'N/A'}</span>
+                                </div>
+                                <div class="owner-row">
+                                    <strong>Area:</strong>
+                                    <span>${pet.owner ? (pet.owner.area || pet.owner.Area || 'N/A') : 'N/A'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (isOwner) {
+                    document.getElementById('manageBtn').addEventListener('click', () => {
+                        window.location.href = 'owner-dashboard.html';
+                    });
+                } else {
+                    document.getElementById('adoptBtn').addEventListener('click', async () => {
+                        const user = Auth.getCurrentUser();
+
+                        if (!user || !user.id) {
+                            alert('Please login to adopt a pet');
+                            window.location.href = 'login.html';
+                            return;
+                        }
+
+                        window.location.href = `adoption-form.html?petId=${id}`;
+                    });
+                }
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div class="error">Error loading pet: ${err.message}</div>`;
+            }
+        });
+    </script>
+
+</body>
+</html>

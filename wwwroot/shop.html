@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Matches - Shop</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* GRID */
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        /* PRODUCT CARD */
+        .product-card {
+            width: 260px;
+            margin: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .product-card img {
+                width: 100%;
+                border-radius: 10px;
+            }
+
+        .price {
+            color: red;
+            font-size: 20px;
+        }
+
+        /* QTY */
+        .qty-control {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+            .qty-control button {
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+
+        /* BUTTONS */
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+            .actions button {
+                flex: 1;
+                padding: 8px;
+                border: none;
+                cursor: pointer;
+                border-radius: 8px;
+            }
+
+                .actions button:first-child {
+                    background: #ff5a5f;
+                    color: white;
+                }
+
+        /* SIDE PANEL */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+            padding: 25px;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .side-panel.open {
+            right: 0;
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="header" id="header">
+        <nav class="navbar">
+
+            <!-- Logo -->
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <!-- Home Button -->
+            <a href="index.html" class="btn btn-primary">Home</a>
+
+            <!-- My Orders Button -->
+            <a href="orders.html" class="btn btn-outline">My Orders</a>
+
+            <!-- Cart/Wishlist Icons -->
+            <div class="nav-icons">
+                <div class="nav-icon-btn" onclick="openWishlist()">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                    <span id="wishlistCount">0</span>
+                </div>
+                <div class="nav-icon-btn" onclick="openCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span id="cartCount">0</span>
+                </div>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- FILTER -->
+    <div style="padding: 20px 30px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+            <!-- Search Bar -->
+            <div style="flex: 1; min-width: 250px; position: relative;">
+                <input type="text" id="searchInput" placeholder="Search products..." 
+                    style="width: 100%; padding: 12px 20px 12px 45px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 14px; transition: all 0.3s ease; outline: none;"
+                    onfocus="this.style.borderColor='#ff6b6b'; this.style.boxShadow='0 0 0 3px rgba(255,107,107,0.1)';"
+                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none';">
+                <i class="fas fa-search" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #999; font-size: 14px;"></i>
+            </div>
+
+            <!-- Category Filter -->
+            <div style="min-width: 180px;">
+                <select id="categoryFilter" 
+                    style="width: 100%; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 14px; transition: all 0.3s ease; outline: none; cursor: pointer; background: white;"
+                    onfocus="this.style.borderColor='#ff6b6b'; this.style.boxShadow='0 0 0 3px rgba(255,107,107,0.1)';"
+                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none';">
+                    <option value="">All Categories</option>
+                    <option value="food">Food</option>
+                    <option value="toys">Toys</option>
+                </select>
+            </div>
+
+            <!-- Price Filter -->
+            <div style="min-width: 180px;">
+                <select id="priceFilter" 
+                    style="width: 100%; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 14px; transition: all 0.3s ease; outline: none; cursor: pointer; background: white;"
+                    onfocus="this.style.borderColor='#ff6b6b'; this.style.boxShadow='0 0 0 3px rgba(255,107,107,0.1)';"
+                    onblur="this.style.borderColor='#e0e0e0'; this.style.boxShadow='none';">
+                    <option value="">All Prices</option>
+                    <option value="low">Below ₹500</option>
+                    <option value="mid">₹500 - ₹2000</option>
+                    <option value="high">Above ₹2000</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="products-grid" id="productsGrid"></div>
+
+    <!-- CART BAR -->
+    <div class="cart-bar">
+        <h3 id="total">Total: ₹0</h3>
+        <button onclick="goToCheckout()">Checkout</button>
+    </div>
+
+    <!-- CART PANEL -->
+    <div id="cartPanel" class="side-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;">
+            <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #333;">Your Cart</h2>
+            <button onclick="closeCart()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#ff6b6b';" onmouseout="this.style.color='#999'">×</button>
+        </div>
+        <div id="cartItems"></div>
+    </div>
+
+    <!-- WISHLIST PANEL -->
+    <div id="wishlistPanel" class="side-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;">
+            <h2 style="margin: 0; font-size: 24px; font-weight: 700; color: #333;">Your Wishlist</h2>
+            <button onclick="closeWishlist()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999; transition: color 0.3s ease;" onmouseover="this.style.color='#ff6b6b';" onmouseout="this.style.color='#999'">×</button>
+        </div>
+        <div id="wishlistItems"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>PawfectMatches</span>
+                    </div>
+                    <p class="footer-about">Connecting loving pet parents with caring adopters in Ahmedabad.</p>
+                    <p style="color: var(--gray-medium); font-size: var(--text-sm); margin-top: var(--spacing-sm);">
+                        <i class="fas fa-map-marker-alt"></i> Serving Ahmedabad, Gujarat
+                    </p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Home</a></li>
+                        <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                        <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                        <li><a href="orders.html" class="nav-link">My Orders</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">FAQs</a></li>
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 class="footer-title">Stay Updated</h4>
+                    <p>Get notified about new pets in Ahmedabad.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); Toast.success('Subscribed successfully!');">
+                        <input type="email" placeholder="Enter your email" class="form-control" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">&copy; 2024 PawfectMatches. All rights reserved. | Ahmedabad, Gujarat</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/products.js"></script>
+
+    <script>
+        function goToCheckout() {
+            window.location.href = "checkout-form.html";
+        }
+
+        // FILTER PRODUCTS
+        function filterProducts() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const category = document.getElementById('categoryFilter').value.toLowerCase();
+            const priceRange = document.getElementById('priceFilter').value;
+
+            let filtered = ShopManager.products || [];
+
+            // Search filter
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchQuery) ||
+                    (p.description && p.description.toLowerCase().includes(searchQuery))
+                );
+            }
+
+            // Category filter
+            if (category) {
+                filtered = filtered.filter(p => 
+                    p.category && p.category.toLowerCase() === category
+                );
+            }
+
+            // Price filter
+            if (priceRange) {
+                filtered = filtered.filter(p => {
+                    const price = p.price || 0;
+                    switch(priceRange) {
+                        case 'low': return price < 500;
+                        case 'mid': return price >= 500 && price <= 2000;
+                        case 'high': return price > 2000;
+                        default: return true;
+                    }
+                });
+            }
+
+            ShopManager.renderProducts(filtered);
+        }
+
+        // HANDLE URL SEARCH PARAMETERS
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+
+            if (searchQuery) {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = searchQuery;
+                }
+            }
+
+            // Add event listeners for real-time filtering
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priceFilter = document.getElementById('priceFilter');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', filterProducts);
+            }
+
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterProducts);
+            }
+
+            if (priceFilter) {
+                priceFilter.addEventListener('change', filterProducts);
+            }
+
+            // Initial filter after products load
+            setTimeout(filterProducts, 1000);
+        });
+
+        // CART PANEL
+        function openCart() {
+            closeWishlist();
+            document.getElementById("cartPanel").style.right = "0";
+            Cart.loadCart();
+        }
+
+        function closeCart() {
+            document.getElementById("cartPanel").style.right = "-400px";
+        }
+
+        // WISHLIST PANEL
+        function openWishlist() {
+            closeCart();
+            document.getElementById("wishlistPanel").style.right = "0";
+            Wishlist.renderWishlist();
+        }
+
+        function closeWishlist() {
+            document.getElementById("wishlistPanel").style.right = "-400px";
+        }
+
+        // UPDATE COUNTS
+        function updateCounts() {
+            Cart.updateUI();
+            Wishlist.updateUI();
+        }
+
+        document.addEventListener("DOMContentLoaded", updateCounts);
+
+    </script>
+
+</body>
+</html>

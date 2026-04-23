@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+            </ul>
+
+            <div class="nav-auth" id="navAuth">
+                <a href="cart.html" class="btn btn-outline cart-btn">
+                    Cart
+                    <span id="cartCount" class="cart-badge">0</span>
+                </a>
+                <a href="#" class="btn btn-dark" id="logoutBtn">Logout</a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Profile Header -->
+    <section class="profile-header-section">
+        <div class="container">
+            <div class="profile-header-content">
+                <img src="https://ui-avatars.com/api/?name=User&background=6c5ce7&color=fff&size=150" alt="Profile" class="profile-avatar-large" id="profileAvatar">
+                <div>
+                    <h1 class="profile-name-large" id="profileName">Loading...</h1>
+                    <p class="profile-bio" id="profileEmail">-</p>
+                    <p style="opacity: 0.8; display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="profileLocation">Ahmedabad, Gujarat</span>
+                    </p>
+                    <div class="profile-stats-row">
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profilePetsCount">0</div>
+                            <div class="profile-stat-label">Pets Listed</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profileAdoptions">0</div>
+                            <div class="profile-stat-label">Adoptions</div>
+                        </div>
+                        <div class="profile-stat-item">
+                            <div class="profile-stat-value" id="profileJoined">-</div>
+                            <div class="profile-stat-label">Member Since</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="profile-content section" style="background: var(--light-color);">
+        <div class="container">
+            <div class="profile-grid">
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <nav class="profile-menu">
+                        <a href="#" class="profile-menu-item active" data-tab="personal">
+                            <i class="fas fa-user"></i> Personal Info
+                        </a>
+                        <a href="#" class="profile-menu-item" data-tab="security">
+                            <i class="fas fa-lock"></i> Security
+                        </a>
+                        <a href="#" class="profile-menu-item" data-tab="notifications">
+                            <i class="fas fa-bell"></i> Notifications
+                        </a>
+                        <a href="#" class="profile-menu-item" data-tab="preferences">
+                            <i class="fas fa-sliders-h"></i> Preferences
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Main Content -->
+                <div class="profile-main">
+                    <!-- Personal Info Tab -->
+                    <div id="personalTab" class="profile-tab active">
+                        <h2 style="margin-bottom: var(--spacing-xl);">Personal Information</h2>
+
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="profileFirstName" placeholder="First name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="profileLastName" placeholder="Last name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="profileEmailInput" placeholder="Email" readonly style="background: var(--light-color);">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="profilePhone" placeholder="Phone number">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">City</label>
+                                    <input type="text" class="form-control" id="profileCity" value="Ahmedabad" readonly style="background: var(--light-color);">
+                                    <small class="text-muted">Currently serving Ahmedabad only</small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Area</label>
+                                    <select class="form-control" id="profileArea">
+                                        <option value="">Select your area</option>
+                                        <option value="Satellite">Satellite</option>
+                                        <option value="Vastrapur">Vastrapur</option>
+                                        <option value="Bodakdev">Bodakdev</option>
+                                        <option value="Prahlad Nagar">Prahlad Nagar</option>
+                                        <option value="SG Highway">SG Highway</option>
+                                        <option value="Navrangpura">Navrangpura</option>
+                                        <option value="Paldi">Paldi</option>
+                                        <option value="Maninagar">Maninagar</option>
+                                        <option value="Chandkheda">Chandkheda</option>
+                                        <option value="Gota">Gota</option>
+                                        <option value="Bopal">Bopal</option>
+                                        <option value="South Bopal">South Bopal</option>
+                                        <option value="Thaltej">Thaltej</option>
+                                        <option value="Shilaj">Shilaj</option>
+                                        <option value="Ambawadi">Ambawadi</option>
+                                        <option value="CG Road">CG Road</option>
+                                        <option value="Drive In Road">Drive In Road</option>
+                                        <option value="Ellis Bridge">Ellis Bridge</option>
+                                        <option value="Jodhpur">Jodhpur</option>
+                                        <option value="Kankaria">Kankaria</option>
+                                        <option value="Memnagar">Memnagar</option>
+                                        <option value="Naranpura">Naranpura</option>
+                                        <option value="Naroda">Naroda</option>
+                                        <option value="Nikol">Nikol</option>
+                                        <option value="Odhav">Odhav</option>
+                                        <option value="Sabarmati">Sabarmati</option>
+                                        <option value="Sarkhej">Sarkhej</option>
+                                        <option value="Shahibaug">Shahibaug</option>
+                                        <option value="Sola">Sola</option>
+                                        <option value="Vastral">Vastral</option>
+                                        <option value="Vejalpur">Vejalpur</option>
+                                        <option value="Other">Other Area</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">PIN Code</label>
+                                <input type="text" class="form-control" id="profilePincode" placeholder="PIN code (38XXXX)">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-control" id="profileBio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div id="securityTab" class="profile-tab" style="display: none;">
+                        <h2 style="margin-bottom: var(--spacing-xl);">Security Settings</h2>
+
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm new password">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </form>
+
+                        <div style="margin-top: var(--spacing-2xl); padding-top: var(--spacing-xl); border-top: 1px solid var(--gray-light);">
+                            <h3 style="color: var(--accent-red); margin-bottom: var(--spacing-md);">Danger Zone</h3>
+                            <p style="color: var(--gray-dark); margin-bottom: var(--spacing-md);">Once you delete your account, there is no going back. Please be certain.</p>
+                            <button class="btn" style="background: var(--accent-red); color: white;" onclick="if(confirm('Are you sure? This cannot be undone.')) Toast.info('Account deletion will be implemented with backend');">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Tab -->
+                    <div id="notificationsTab" class="profile-tab" style="display: none;">
+                        <h2 style="margin-bottom: var(--spacing-xl);">Notification Preferences</h2>
+
+                        <div style="display: flex; flex-direction: column; gap: var(--spacing-lg);">
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--light-color); border-radius: var(--radius-md);">
+                                <input type="checkbox" checked>
+                                <span><strong>Email Notifications</strong><br><small style="color: var(--gray-dark);">Receive updates about your pets and adoption requests</small></span>
+                            </label>
+
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--light-color); border-radius: var(--radius-md);">
+                                <input type="checkbox" checked>
+                                <span><strong>New Messages</strong><br><small style="color: var(--gray-dark);">Get notified when someone messages you</small></span>
+                            </label>
+
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--light-color); border-radius: var(--radius-md);">
+                                <input type="checkbox" checked>
+                                <span><strong>New Pets in Ahmedabad</strong><br><small style="color: var(--gray-dark);">Get notified when new pets are listed in your area</small></span>
+                            </label>
+
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--light-color); border-radius: var(--radius-md);">
+                                <input type="checkbox">
+                                <span><strong>Marketing Emails</strong><br><small style="color: var(--gray-dark);">Receive promotions and updates from PawfectMatches</small></span>
+                            </label>
+
+                            <label class="form-check" style="padding: var(--spacing-md); background: var(--light-color); border-radius: var(--radius-md);">
+                                <input type="checkbox" checked>
+                                <span><strong>Order Updates</strong><br><small style="color: var(--gray-dark);">Get notified about your order status</small></span>
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary" style="margin-top: var(--spacing-xl);" onclick="Toast.success('Preferences saved!')">
+                            Save Preferences
+                        </button>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div id="preferencesTab" class="profile-tab" style="display: none;">
+                        <h2 style="margin-bottom: var(--spacing-xl);">Preferences</h2>
+
+                        <div class="form-group">
+                            <label class="form-label">Preferred Pet Type</label>
+                            <select class="form-control">
+                                <option value="">All Pets</option>
+                                <option value="dog">Dogs</option>
+                                <option value="cat">Cats</option>
+                                <option value="bird">Birds</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Preferred Area in Ahmedabad</label>
+                            <select class="form-control">
+                                <option value="">All Areas</option>
+                                <option value="Satellite">Satellite</option>
+                                <option value="Vastrapur">Vastrapur</option>
+                                <option value="Bodakdev">Bodakdev</option>
+                                <option value="Prahlad Nagar">Prahlad Nagar</option>
+                                <option value="SG Highway">SG Highway</option>
+                                <option value="Navrangpura">Navrangpura</option>
+                                <option value="Bopal">Bopal</option>
+                                <option value="Thaltej">Thaltej</option>
+                                <option value="Gota">Gota</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="Toast.success('Preferences saved!')">
+                            Save Preferences
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding: 0;">
+                <p class="footer-copyright">&copy; 2024 PawfectMatches. All rights reserved. | Ahmedabad, Gujarat</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Require auth
+            if (!Auth.requireAuth()) return;
+
+            // Load user data
+            const user = Auth.getCurrentUser();
+            if (user) {
+                document.getElementById('profileName').textContent = `${user.firstName} ${user.lastName}`;
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('profileAvatar').src = user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.firstName)}&background=6c5ce7&color=fff&size=150`;
+                document.getElementById('profileJoined').textContent = new Date(user.createdAt).getFullYear();
+                document.getElementById('profileLocation').textContent = `${user.area || 'Ahmedabad'}, Gujarat`;
+
+                // Fill form
+                document.getElementById('profileFirstName').value = user.firstName || '';
+                document.getElementById('profileLastName').value = user.lastName || '';
+                document.getElementById('profileEmailInput').value = user.email || '';
+                document.getElementById('profilePhone').value = user.phone || '';
+                document.getElementById('profileArea').value = user.area || '';
+                document.getElementById('profilePincode').value = user.pincode || '';
+            }
+
+            // Tab switching
+            document.querySelectorAll('.profile-menu-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    document.querySelectorAll('.profile-menu-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    document.querySelectorAll('.profile-tab').forEach(tab => tab.style.display = 'none');
+                    document.getElementById(`${item.dataset.tab}Tab`).style.display = 'block';
+                });
+            });
+
+            // Profile form submit
+            document.getElementById('profileForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                Toast.success('Profile updated successfully!');
+            });
+
+            // Password form submit
+            document.getElementById('passwordForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPass = document.getElementById('newPassword').value;
+                const confirmPass = document.getElementById('confirmNewPassword').value;
+
+                if (newPass !== confirmPass) {
+                    Toast.error('Passwords do not match');
+                    return;
+                }
+
+                Toast.success('Password updated successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

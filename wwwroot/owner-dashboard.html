@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Pets - PawfectMatch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .dashboard-header {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dashboard-header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 24px;
+        }
+        .dashboard-header p {
+            margin: 4px 0 0 0;
+            color: #666;
+        }
+        .tabs {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+        }
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .pet-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .pet-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .pet-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .pet-card-body {
+            padding: 16px;
+        }
+        .pet-card-body h3 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .pet-card-body p {
+            margin: 4px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .pet-card-footer {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-adopted {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .request-count {
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .requests-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .request-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .request-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .request-card-body {
+            flex: 1;
+        }
+        .request-card-body h3 {
+            margin: 0 0 8px 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .request-card-body p {
+            margin: 4px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .request-card-footer {
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .error {
+            color: #dc3545;
+            background: #ffebee;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #ccc;
+        }
+        .empty-state h3 {
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .request-card {
+                flex-direction: column;
+            }
+            .request-card img {
+                width: 100%;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div>
+                <h1><i class="fas fa-paw" style="color: #667eea;"></i> My Pets Dashboard</h1>
+                <p>Manage your pets and adoption requests</p>
+            </div>
+            <a href="index.html" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('my-pets')">
+                <i class="fas fa-list"></i> My Pets
+            </button>
+            <button class="tab" onclick="switchTab('adoption-requests')">
+                <i class="fas fa-heart"></i> Adoption Requests
+            </button>
+        </div>
+
+        <div id="my-pets-section" class="card">
+            <div id="pets-loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading your pets...
+            </div>
+            <div id="pets-content" style="display: none;">
+                <div id="pets-grid" class="pets-grid"></div>
+                <div id="pets-empty" class="empty-state" style="display: none;">
+                    <i class="fas fa-paw"></i>
+                    <h3>No pets listed yet</h3>
+                    <p>List your first pet for adoption to get started!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="adoption-requests-section" class="card" style="display: none;">
+            <div id="requests-loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading adoption requests...
+            </div>
+            <div id="requests-content" style="display: none;">
+                <div id="requests-list" class="requests-list"></div>
+                <div id="requests-empty" class="empty-state" style="display: none;">
+                    <i class="fas fa-heart"></i>
+                    <h3>No adoption requests yet</h3>
+                    <p>When people apply for your pets, requests will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let myPets = [];
+        let adoptionRequests = [];
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.tab').classList.add('active');
+
+            document.getElementById('my-pets-section').style.display = tabName === 'my-pets' ? 'block' : 'none';
+            document.getElementById('adoption-requests-section').style.display = tabName === 'adoption-requests' ? 'block' : 'none';
+
+            if (tabName === 'adoption-requests') {
+                loadAdoptionRequests();
+            }
+        }
+
+        async function loadMyPets() {
+            try {
+                const user = Auth.getCurrentUser();
+                if (!user || !user.id) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const res = await API.get(`/api/Pets/user/${user.id}`);
+                myPets = res.data || [];
+
+                document.getElementById('pets-loading').style.display = 'none';
+                document.getElementById('pets-content').style.display = 'block';
+
+                if (myPets.length === 0) {
+                    document.getElementById('pets-empty').style.display = 'block';
+                    document.getElementById('pets-grid').style.display = 'none';
+                    return;
+                }
+
+                document.getElementById('pets-empty').style.display = 'none';
+                document.getElementById('pets-grid').style.display = 'grid';
+
+                const petsGrid = document.getElementById('pets-grid');
+                petsGrid.innerHTML = myPets.map(pet => {
+                    const img = pet.images && pet.images.length > 0
+                        ? pet.images[0].imageUrl
+                        : 'images/dog.jpg';
+                    
+                    const statusClass = pet.status === 'Adopted' ? 'status-adopted' : 
+                                      pet.status === 'Pending' ? 'status-pending' : 'status-available';
+
+                    return `
+                        <div class="pet-card">
+                            <img src="${img}" alt="${pet.name}">
+                            <div class="pet-card-body">
+                                <h3>${pet.name}</h3>
+                                <p><strong>Breed:</strong> ${pet.breed || 'N/A'}</p>
+                                <p><strong>Age:</strong> ${pet.age} years</p>
+                                <p><strong>Gender:</strong> ${pet.gender}</p>
+                            </div>
+                            <div class="pet-card-footer">
+                                <span class="status-badge ${statusClass}">${pet.status || 'Available'}</span>
+                                <a href="pet-details.html?id=${pet.petId}" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading pets:', error);
+                document.getElementById('pets-loading').innerHTML = '<div class="error">Error loading pets. Please try again.</div>';
+            }
+        }
+
+        async function loadAdoptionRequests() {
+            try {
+                const user = Auth.getCurrentUser();
+                if (!user || !user.id) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                document.getElementById('requests-loading').style.display = 'block';
+                document.getElementById('requests-content').style.display = 'none';
+
+                const res = await API.get('/api/AdoptionRequests');
+                const allRequests = res.data || [];
+                
+                console.log('📋 All adoption requests:', allRequests);
+                console.log('🐕 User pets:', myPets);
+
+                // Filter requests for user's pets
+                const userPetIds = myPets.map(p => p.petId || p.PetId || p.id || p.ID);
+                console.log('🆔 User pet IDs:', userPetIds);
+                console.log('🐕 User pets details:', myPets);
+                
+                adoptionRequests = allRequests.filter(req => {
+                    console.log('🔍 Checking request:', req);
+                    // API returns Pet object with nested PetId: req.Pet.PetId
+                    // Also check for direct PetId field and other variations
+                    const requestPetId = req.Pet?.PetId || req.pet?.petId || req.PetId || req.petId || req.pet?.id || req.pet?.ID;
+                    console.log('🎯 Request pet ID:', requestPetId, 'User pet IDs:', userPetIds);
+                    console.log('🔗 Match result:', requestPetId && userPetIds.includes(requestPetId));
+                    return requestPetId && userPetIds.includes(requestPetId);
+                });
+                
+                console.log('✅ Filtered adoption requests:', adoptionRequests);
+
+                document.getElementById('requests-loading').style.display = 'none';
+                document.getElementById('requests-content').style.display = 'block';
+
+                if (adoptionRequests.length === 0) {
+                    document.getElementById('requests-empty').style.display = 'block';
+                    document.getElementById('requests-list').style.display = 'none';
+                    return;
+                }
+
+                document.getElementById('requests-empty').style.display = 'none';
+                document.getElementById('requests-list').style.display = 'flex';
+
+                const requestsList = document.getElementById('requests-list');
+                requestsList.innerHTML = adoptionRequests.map(req => {
+                    // Handle both PascalCase and camelCase field names
+                    const pet = req.Pet || req.pet || {};
+                    const petImg = pet.PrimaryImage || pet.primaryImage || 'images/dog.jpg';
+                    const petName = pet.Name || pet.name || 'Unknown Pet';
+                    const status = req.Status || req.status || 'Pending';
+                    const statusClass = status === 'Accepted' ? 'status-adopted' : 
+                                      status === 'Rejected' ? 'status-adopted' : 'status-pending';
+
+                    const deliveryMethodText = (req.PreferredDeliveryMethod || req.preferredDeliveryMethod) === 'visit-owner-location' 
+                        ? 'Visit owner\'s location' 
+                        : 'Meet at mutual location';
+
+                    return `
+                        <div class="request-card">
+                            <img src="${petImg}" alt="${petName}">
+                            <div class="request-card-body">
+                                <h3>${req.FullName || req.fullName || 'N/A'} wants to adopt ${petName}</h3>
+                                <p><strong>Email:</strong> ${req.Email || req.email || 'N/A'}</p>
+                                <p><strong>Phone:</strong> ${req.Phone || req.phone || 'N/A'}</p>
+                                <p><strong>Location:</strong> ${req.City || req.city || 'N/A'}, ${req.Area || req.area || 'N/A'}</p>
+                                <p><strong>Housing:</strong> ${req.HousingType || req.housingType || 'N/A'}</p>
+                                <p><strong>Experience:</strong> ${req.Experience || req.experience || 'N/A'}</p>
+                                <p><strong>Delivery Preference:</strong> ${deliveryMethodText}</p>
+                                <p><strong>Message:</strong> ${req.Message || req.message || 'No message'}</p>
+                                <div class="request-card-footer">
+                                    <span class="status-badge ${statusClass}">${status}</span>
+                                    ${status === 'Pending' ? `
+                                        <button class="btn btn-success" onclick="updateRequestStatus(${req.RequestId || req.requestId}, 'Accepted')">
+                                            <i class="fas fa-check"></i> Accept
+                                        </button>
+                                        <button class="btn btn-danger" onclick="updateRequestStatus(${req.requestId}, 'Rejected')">
+                                            <i class="fas fa-times"></i> Reject
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Error loading adoption requests:', error);
+                document.getElementById('requests-loading').innerHTML = '<div class="error">Error loading adoption requests. Please try again.</div>';
+            }
+        }
+
+        window.updateRequestStatus = async function(requestId, status) {
+            try {
+                await API.put(`/api/AdoptionRequests/${requestId}`, { Status: status });
+                Toast.success(`Request ${status.toLowerCase()} successfully!`);
+                loadAdoptionRequests();
+                loadMyPets(); // Refresh pet statuses
+            } catch (error) {
+                console.error('Error updating request status:', error);
+                Toast.error('Failed to update request status');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMyPets();
+        });
+    </script>
+</body>
+</html>

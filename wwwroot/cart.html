@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Pawfect Matches</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f5f6fa;
+        }
+
+        .cart-container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+            .cart-item img {
+                width: 100px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+
+        .cart-details {
+            flex: 1;
+        }
+
+            .cart-details h3 {
+                margin: 0;
+            }
+
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+
+        .qty {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+            .qty button {
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+
+        .remove-btn {
+            color: red;
+            cursor: pointer;
+        }
+
+        .summary {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cart-container">
+        <h1>🛒 Your Cart</h1>
+
+        <div id="cartItems"></div>
+
+        <div class="summary" id="cartSummary"></div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toastContainer"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/cart.js"></script>
+
+    <script>
+
+        function renderCart() {
+            const cart = Cart.getCart();
+            const container = document.getElementById("cartItems");
+            const summary = document.getElementById("cartSummary");
+
+            // EMPTY CART
+            if (cart.length === 0) {
+                container.innerHTML = `
+                <div class="empty">
+                    <h2>Your cart is empty 😢</h2>
+                    <a href="shop.html">Go Shopping</a>
+                </div>
+            `;
+                summary.innerHTML = "";
+                return;
+            }
+
+            let total = 0;
+
+            container.innerHTML = cart.map(item => {
+                const product = PRODUCTS.find(p => p.id === item.id);
+
+                if (!product) return '';
+
+                const itemTotal = product.price * item.quantity;
+                total += itemTotal;
+
+                return `
+                <div class="cart-item">
+
+                    <img src="${product.images[0]}">
+
+                    <div class="cart-details">
+                        <h3>${product.name}</h3>
+                        <p class="price">${Utils.formatPrice(product.price)}</p>
+
+                        <div class="qty">
+                            <button onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p><strong>${Utils.formatPrice(itemTotal)}</strong></p>
+                        <span class="remove-btn" onclick="removeItem(${item.id})">Remove</span>
+                    </div>
+
+                </div>
+            `;
+            }).join('');
+
+            summary.innerHTML = `
+            <h2>Total: ${Utils.formatPrice(total)}</h2>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        `;
+        }
+
+        // UPDATE QUANTITY
+        function changeQty(id, change) {
+            Cart.updateQuantity(id, change);
+            renderCart();
+        }
+
+        // REMOVE ITEM
+        function removeItem(id) {
+            Cart.removeItem(id);
+            renderCart();
+        }
+
+        // CHECKOUT
+        function checkout() {
+            window.location.href = "checkout-form.html";
+        }
+
+        // INIT
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCart();
+            Cart.updateCartCount();
+        });
+
+    </script>
+
+</body>
+</html>

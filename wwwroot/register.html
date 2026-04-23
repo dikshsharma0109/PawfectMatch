@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - PawfectMatches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-image">
+                <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400">
+                <h2>Join Our Community!</h2>
+                <p>Create an account to adopt pets, list your pets, or shop.</p>
+            </div>
+
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <a href="index.html" class="nav-logo">
+                        <i class="fas fa-paw"></i>
+                        <span>PawfectMatches</span>
+                    </a>
+                    <h1>Create Account</h1>
+                </div>
+
+                <form id="registerForm">
+
+                    <div class="form-row" style="margin-bottom: 15px; display: flex;">
+                        <input type="text" id="firstName" placeholder="First Name" required style="flex: 1; margin-right: 10px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; outline: none;">
+                        <input type="text" id="lastName" placeholder="Last Name" required style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; outline: none;">
+                    </div>
+
+                    <input type="email" id="registerEmail" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required class="form-control" style="margin-bottom: 15px;">
+                    <input type="text" id="phone" placeholder="Phone" required class="form-control" style="margin-bottom: 15px;">
+
+                    <input type="text" id="city" value="Ahmedabad" readonly class="form-control" style="margin-bottom: 15px;">
+
+                    <input type="text" id="pincode" placeholder="PIN Code" required class="form-control" style="margin-bottom: 15px;">
+
+                    <input type="password" id="registerPassword" placeholder="Password" required class="form-control" style="margin-bottom: 15px;">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required class="form-control" style="margin-bottom: 15px;">
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Register
+                    </button>
+                </form>
+
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Files -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Password confirmation check
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                Toast.error("Passwords do not match ❌");
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Let auth.js handle the actual submission
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✅ Register page loaded - auth.js should handle form");
+        });
+    </script>
+</body>
+</html>
+
+</body>
+</html>

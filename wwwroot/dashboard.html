@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PawfectMatches</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-paw"></i>
+                <span>PawfectMatches</span>
+            </a>
+
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search..." />
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="pet-listing.html" class="nav-link">Adopt</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+            </ul>
+
+            <div class="nav-auth" id="navAuth">
+                <a href="cart.html" class="btn btn-outline cart-btn">
+                    Cart
+                    <span class="cart-badge">3</span>
+                </a>
+                <a href="#" class="btn btn-dark" id="logoutBtn">Logout</a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-paw"></i> My Pets
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-heart"></i> Favorites
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-comments"></i> Messages
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-clipboard-list"></i> Requests
+                </a>
+            </nav>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Shop</div>
+                <nav class="sidebar-nav">
+                    <a href="cart.html" class="sidebar-link">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-box"></i> Orders
+                    </a>
+                    <a href="add-product.html" class="sidebar-link">
+                        <i class="fas fa-plus"></i> Add Product
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Account</div>
+                <nav class="sidebar-nav">
+                    <a href="profile.html" class="sidebar-link">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </nav>
+            </div>
+
+        </aside>
+
+        <!-- ✅ MAIN CONTENT (THIS WAS MISSING) -->
+        <main class="dashboard-content">
+
+            <h2>Welcome to Dashboard 👋</h2>
+            <p>This is your control panel.</p>
+
+            <div class="cards">
+                <div class="card">👤 Users</div>
+                <div class="card">📦 Orders</div>
+                <div class="card">🛒 Products</div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/utils.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+
+    <!-- Mobile menu toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+
+    <!-- USER NAME FIX -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = Utils.getStorage(CONFIG.STORAGE_KEYS.USER_DATA);
+            if (user) {
+                document.querySelector(".nav-user-name").textContent = user.firstName;
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+@PawfectMatch_HostAddress = http://localhost:5098
+
+GET {{PawfectMatch_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

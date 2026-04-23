@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Pawfect Matches</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .checkout-container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                margin: 15px auto;
+                padding: 10px;
+            }
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        .cart-summary-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-summary-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .item-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .item-details h4 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .item-details p {
+            margin: 0;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-option {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .payment-option:hover {
+            border-color: #6c5ce7;
+            background: #f8f9fa;
+        }
+
+        .payment-option.selected {
+            border-color: #6c5ce7;
+            background: #f0f0ff;
+        }
+
+        .payment-option i {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #6c5ce7;
+        }
+
+        .payment-option h4 {
+            margin: 10px 0 5px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .payment-option p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .total-row.grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .place-order-btn:hover {
+            background: linear-gradient(135deg, #ff5252, #ff7a7a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .empty-cart i {
+            font-size: 64px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .razorpay-info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <!-- Shipping Details -->
+        <div class="section">
+            <h2><i class="fas fa-shipping-fast"></i> Shipping Details</h2>
+            
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}">
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Address *</label>
+                    <textarea id="address" rows="3" placeholder="Enter your full address" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" id="city" value="Ahmedabad" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Pincode *</label>
+                    <input type="text" id="pincode" placeholder="Enter pincode" required pattern="[0-9]{6}">
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method *</label>
+                    <div class="payment-options">
+                        <div class="payment-option selected" onclick="selectPayment('online')" id="online-option">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Online Payment</h4>
+                            <p>Pay securely online</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="paymentMethod" value="online">
+                    
+                    <div class="razorpay-info" id="payment-info" style="display: block;">
+                        <i class="fas fa-info-circle"></i> You will be redirected to a secure payment gateway to complete your payment.
+                    </div>
+                </div>
+
+                <button type="submit" class="place-order-btn" id="placeOrderBtn">
+                    <i class="fas fa-check-circle"></i> Place Order
+                </button>
+            </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="section">
+            <h2><i class="fas fa-shopping-bag"></i> Order Summary</h2>
+            <div id="orderSummary"></div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/products.js"></script>
+
+    <script>
+        let selectedPayment = 'online';
+
+        // Load cart summary
+        async function loadOrderSummary() {
+            const cart = Cart.getCart();
+            const container = document.getElementById('orderSummary');
+
+            console.log('🛒 Cart items:', cart);
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Your cart is empty</h3>
+                        <p>Add items to cart before checkout</p>
+                        <a href="shop.html" style="color: #ff6b6b; text-decoration: none; font-weight: 600;">Go to Shop</a>
+                    </div>
+                `;
+                document.getElementById('placeOrderBtn').disabled = true;
+                return;
+            }
+
+            // Wait for ShopManager to load products
+            console.log('⏳ Waiting for ShopManager to load products...');
+            let attempts = 0;
+            const maxAttempts = 10;
+            while ((!ShopManager.products || ShopManager.products.length === 0) && attempts < maxAttempts) {
+                console.log(`Attempt ${attempts + 1}/${maxAttempts}: ShopManager.products =`, ShopManager.products);
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            console.log('📦 ShopManager.products after waiting:', ShopManager.products);
+
+            if (!ShopManager.products || ShopManager.products.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Products not loaded</h3>
+                        <p>Please refresh the page and try again</p>
+                    </div>
+                `;
+                document.getElementById('placeOrderBtn').disabled = true;
+                return;
+            }
+
+            const products = ShopManager.products;
+            console.log('✅ Using ShopManager products:', products);
+
+            let subtotal = 0;
+            let itemsHtml = '';
+            let foundItems = 0;
+
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                console.log(`🔍 Looking for product with id ${item.productId}:`, product);
+                if (!product) {
+                    console.warn(`⚠️ Product not found for cart item:`, item);
+                    return;
+                }
+
+                foundItems++;
+                const itemTotal = product.price * item.qty;
+                subtotal += itemTotal;
+
+                itemsHtml += `
+                    <div class="cart-summary-item">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="item-details">
+                            <h4>${product.name}</h4>
+                            <p>Qty: ${item.qty} × ₹${product.price}</p>
+                        </div>
+                        <div style="font-weight: 600;">₹${itemTotal}</div>
+                    </div>
+                `;
+            });
+
+            console.log(`✅ Found ${foundItems} out of ${cart.length} cart items`);
+
+            if (foundItems === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>No valid products in cart</h3>
+                        <p>Your cart items may be outdated. Please clear your cart and add items again.</p>
+                        <button onclick="Cart.saveCart([]); loadOrderSummary();" style="margin-top: 15px; padding: 10px 20px; background: #ff6b6b; color: white; border: none; border-radius: 8px; cursor: pointer;">Clear Cart</button>
+                    </div>
+                `;
+                document.getElementById('placeOrderBtn').disabled = true;
+                return;
+            }
+
+            const deliveryFee = subtotal > 1000 ? 0 : 50;
+            const total = subtotal + deliveryFee;
+
+            container.innerHTML = `
+                ${itemsHtml}
+                
+                <div class="total-section">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span>₹${subtotal}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Fee</span>
+                        <span>${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span>Total</span>
+                        <span>₹${total}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('placeOrderBtn').disabled = false;
+
+            // Store products globally for place order
+            window.checkoutProducts = products;
+
+            return total;
+        }
+
+        // Select payment method (only Razorpay available)
+        function selectPayment(method) {
+            selectedPayment = method;
+            document.getElementById('paymentMethod').value = method;
+        }
+
+        // Place order
+        document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const cart = Cart.getCart();
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const products = window.checkoutProducts || [];
+            if (products.length === 0) {
+                alert('Products not loaded. Please refresh the page and try again.');
+                return;
+            }
+
+            let total = 0;
+            const orderItems = [];
+
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.productId);
+                if (product) {
+                    total += product.price * item.qty;
+                    orderItems.push({
+                        productId: item.productId,
+                        qty: item.qty
+                    });
+                }
+            });
+
+            if (orderItems.length === 0) {
+                alert('No valid products in cart. Please clear your cart and add items again.');
+                return;
+            }
+
+            const deliveryFee = total > 1000 ? 0 : 50;
+            const grandTotal = total + deliveryFee;
+
+            // Get user data for userId
+            const userData = Utils.getStorage(CONFIG.STORAGE_KEYS.USER_DATA);
+            const userId = userData?.id || userData?.userId || userData?.UserId || 1;
+
+            const orderData = {
+                userId: userId,
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                pincode: document.getElementById('pincode').value,
+                paymentMethod: 'online',
+                paymentStatus: 'paid',
+                items: orderItems,
+                subtotal: total,
+                deliveryFee: deliveryFee,
+                total: grandTotal
+            };
+
+            await initiateFakePayment(orderData);
+        });
+
+        // Fake Online Payment Simulation
+        async function initiateFakePayment(orderData) {
+            try {
+                const btn = document.getElementById('placeOrderBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
+
+                // Simulate payment processing delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Simulate payment success
+                btn.innerHTML = '<i class="fas fa-check"></i> Payment Successful!';
+
+                // Place the order
+                await API.post('/api/Orders', orderData);
+
+                // Clear cart
+                Cart.saveCart([]);
+
+                alert('Order placed successfully! 🎉\n\nPayment completed successfully. Your order will be delivered soon.');
+                window.location.href = 'orders.html';
+
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                alert('Failed to process payment. Please try again.');
+                const btn = document.getElementById('placeOrderBtn');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Place Order';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for ShopManager to initialize and load products
+            if (typeof ShopManager !== 'undefined' && ShopManager.init) {
+                await ShopManager.init();
+            }
+            loadOrderSummary();
+        });
+    </script>
+</body>
+</html>

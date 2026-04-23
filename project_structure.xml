@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project name="PawfectMatch" type="ASP.NET Core Web API" framework=".NET 10.0">
+  <Description>Pet adoption and e-commerce platform with admin panel</Description>
+  
+  <Configuration>
+    <TargetFramework>net10.0</TargetFramework>
+    <Database>SQL Server (localdb)</Database>
+    <ORM>Entity Framework Core 10.0.3</ORM>
+    <Authentication>None (Custom implementation)</Authentication>
+    <CORS>AllowAll (Open for development)</CORS>
+  </Configuration>
+
+  <Dependencies>
+    <Package name="Microsoft.AspNetCore.OpenApi" version="10.0.3" />
+    <Package name="Microsoft.EntityFrameworkCore.Design" version="10.0.3" />
+    <Package name="Microsoft.EntityFrameworkCore.SqlServer" version="10.0.3" />
+    <Package name="Microsoft.EntityFrameworkCore.Tools" version="10.0.3" />
+  </Dependencies>
+
+  <Backend>
+    <Controllers>
+      <Controller name="UsersController" route="api/Users">
+        <Methods>
+          <Method type="POST" endpoint="register" description="Register new user" />
+          <Method type="POST" endpoint="login" description="User login" />
+          <Method type="GET" endpoint="" description="Get all users" />
+          <Method type="GET" endpoint="{id}" description="Get user by ID" />
+          <Method type="PUT" endpoint="{id}" description="Update user" />
+          <Method type="DELETE" endpoint="{id}" description="Delete user" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="PetsController" route="api/Pets">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get all pets" />
+          <Method type="GET" endpoint="{id}" description="Get pet by ID" />
+          <Method type="POST" endpoint="" description="Create new pet" />
+          <Method type="PUT" endpoint="{id}" description="Update pet" />
+          <Method type="DELETE" endpoint="{id}" description="Delete pet" />
+          <Method type="GET" endpoint="user/{userId}" description="Get pets by user" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="ProductsController" route="api/Products">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get all products" />
+          <Method type="GET" endpoint="{id}" description="Get product by ID" />
+          <Method type="POST" endpoint="" description="Create new product" />
+          <Method type="PUT" endpoint="{id}" description="Update product" />
+          <Method type="DELETE" endpoint="{id}" description="Delete product" />
+          <Method type="GET" endpoint="category/{category}" description="Get products by category" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="OrdersController" route="api/Orders">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get all orders" />
+          <Method type="POST" endpoint="create" description="Create new order" />
+          <Method type="GET" endpoint="{id}" description="Get order by ID" />
+          <Method type="GET" endpoint="user/{userId}" description="Get orders by user" />
+          <Method type="PUT" endpoint="{id}/status" description="Update order status" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="CartController" route="api/Cart">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get user cart" />
+          <Method type="POST" endpoint="add" description="Add item to cart" />
+          <Method type="PUT" endpoint="update" description="Update cart item" />
+          <Method type="DELETE" endpoint="remove/{id}" description="Remove item from cart" />
+          <Method type="DELETE" endpoint="clear" description="Clear cart" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="FavoritesController" route="api/Favorites">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get user favorites" />
+          <Method type="POST" endpoint="add" description="Add pet to favorites" />
+          <Method type="DELETE" endpoint="remove/{id}" description="Remove from favorites" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="AdoptionRequestsController" route="api/AdoptionRequests">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get all adoption requests" />
+          <Method type="POST" endpoint="" description="Create adoption request" />
+          <Method type="PUT" endpoint="{id}" description="Update request status (Accept/Reject)" />
+          <Method type="GET" endpoint="pet/{petId}" description="Get requests for pet" />
+          <Method type="GET" endpoint="user/{userId}" description="Get requests by user" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="AdminController" route="api/Admin">
+        <Methods>
+          <Method type="GET" endpoint="stats" description="Get dashboard statistics" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="AdminApiController" route="api/AdminApi">
+        <Methods>
+          <Method type="GET" endpoint="dashboard" description="Admin dashboard data" />
+        </Methods>
+      </Controller>
+      
+      <Controller name="AreasController" route="api/Areas">
+        <Methods>
+          <Method type="GET" endpoint="" description="Get all areas" />
+          <Method type="POST" endpoint="" description="Create new area" />
+        </Methods>
+      </Controller>
+    </Controllers>
+
+    <Models>
+      <Model name="User">
+        <Properties>
+          <Property name="UserId" type="int" key="true" />
+          <Property name="FirstName" type="string" />
+          <Property name="LastName" type="string" />
+          <Property name="Email" type="string" />
+          <Property name="Password" type="string" />
+          <Property name="Phone" type="string" />
+          <Property name="City" type="string" default="Ahmedabad" />
+          <Property name="Area" type="string" />
+          <Property name="Pincode" type="string" />
+          <Property name="Role" type="string" default="Adopter" />
+          <Property name="Avatar" type="string" nullable="true" />
+          <Property name="IsVerified" type="bool" default="false" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="Pets" type="ICollection&lt;Pet&gt;" />
+          <Property name="Products" type="ICollection&lt;Product&gt;" />
+          <Property name="Orders" type="ICollection&lt;Order&gt;" />
+          <Property name="AdoptionRequests" type="ICollection&lt;AdoptionRequest&gt;" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="Pet">
+        <Properties>
+          <Property name="PetId" type="int" key="true" />
+          <Property name="Name" type="string" />
+          <Property name="Type" type="string" />
+          <Property name="Breed" type="string" />
+          <Property name="Age" type="string" />
+          <Property name="Gender" type="string" />
+          <Property name="Description" type="string" />
+          <Property name="ImageUrl" type="string" />
+          <Property name="OwnerId" type="int" />
+          <Property name="Status" type="string" default="Available" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="Owner" type="User" />
+          <Property name="PetImages" type="ICollection&lt;PetImage&gt;" />
+          <Property name="Vaccinations" type="ICollection&lt;Vaccination&gt;" />
+          <Property name="AdoptionRequests" type="ICollection&lt;AdoptionRequest&gt;" />
+          <Property name="Reviews" type="ICollection&lt;Review&gt;" />
+          <Property name="Favorites" type="ICollection&lt;Favorite&gt;" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="PetImage">
+        <Properties>
+          <Property name="PetImageId" type="int" key="true" />
+          <Property name="PetId" type="int" />
+          <Property name="ImageUrl" type="string" />
+          <Property name="IsPrimary" type="bool" />
+        </Properties>
+      </Model>
+      
+      <Model name="Product">
+        <Properties>
+          <Property name="ProductId" type="int" key="true" />
+          <Property name="Name" type="string" />
+          <Property name="Category" type="string" />
+          <Property name="Description" type="string" />
+          <Property name="Price" type="decimal" />
+          <Property name="Stock" type="int" />
+          <Property name="PetType" type="string" />
+          <Property name="SellerId" type="int" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="Seller" type="User" />
+          <Property name="ProductImages" type="ICollection&lt;ProductImage&gt;" />
+          <Property name="OrderItems" type="ICollection&lt;OrderItem&gt;" />
+          <Property name="Reviews" type="ICollection&lt;Review&gt;" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="ProductImage">
+        <Properties>
+          <Property name="ProductImageId" type="int" key="true" />
+          <Property name="ProductId" type="int" />
+          <Property name="ImageUrl" type="string" />
+          <Property name="IsPrimary" type="bool" />
+        </Properties>
+      </Model>
+      
+      <Model name="Order">
+        <Properties>
+          <Property name="OrderId" type="int" key="true" />
+          <Property name="UserId" type="int" />
+          <Property name="FullName" type="string" />
+          <Property name="Phone" type="string" />
+          <Property name="Email" type="string" />
+          <Property name="Address" type="string" />
+          <Property name="City" type="string" />
+          <Property name="Pincode" type="string" />
+          <Property name="PaymentMethod" type="string" />
+          <Property name="PaymentStatus" type="string" />
+          <Property name="TotalAmount" type="decimal" />
+          <Property name="OrderDate" type="DateTime" />
+          <Property name="Status" type="string" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="User" type="User" />
+          <Property name="OrderItems" type="ICollection&lt;OrderItem&gt;" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="OrderItem">
+        <Properties>
+          <Property name="OrderItemId" type="int" key="true" />
+          <Property name="OrderId" type="int" />
+          <Property name="ProductId" type="int" />
+          <Property name="Quantity" type="int" />
+          <Property name="Price" type="decimal" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="Order" type="Order" />
+          <Property name="Product" type="Product" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="AdoptionRequest">
+        <Properties>
+          <Property name="RequestId" type="int" key="true" />
+          <Property name="PetId" type="int" />
+          <Property name="AdopterId" type="int" />
+          <Property name="Message" type="string" />
+          <Property name="Status" type="string" default="Pending" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="Pet" type="Pet" />
+          <Property name="Adopter" type="User" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="CartItem">
+        <Properties>
+          <Property name="CartItemId" type="int" key="true" />
+          <Property name="UserId" type="int" />
+          <Property name="ProductId" type="int" />
+          <Property name="Quantity" type="int" />
+        </Properties>
+        <NavigationProperties>
+          <Property name="User" type="User" />
+          <Property name="Product" type="Product" />
+        </NavigationProperties>
+      </Model>
+      
+      <Model name="Area">
+        <Properties>
+          <Property name="AreaId" type="int" key="true" />
+          <Property name="Name" type="string" />
+          <Property name="City" type="string" />
+        </Properties>
+      </Model>
+      
+      <Model name="Review">
+        <Properties>
+          <Property name="ReviewId" type="int" key="true" />
+          <Property name="PetId" type="int" nullable="true" />
+          <Property name="ProductId" type="int" nullable="true" />
+          <Property name="UserId" type="int" />
+          <Property name="Rating" type="int" />
+          <Property name="Comment" type="string" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+      </Model>
+      
+      <Model name="Favorite">
+        <Properties>
+          <Property name="FavoriteId" type="int" key="true" />
+          <Property name="UserId" type="int" />
+          <Property name="PetId" type="int" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+      </Model>
+      
+      <Model name="Message">
+        <Properties>
+          <Property name="MessageId" type="int" key="true" />
+          <Property name="SenderId" type="int" />
+          <Property name="ReceiverId" type="int" />
+          <Property name="Content" type="string" />
+          <Property name="IsRead" type="bool" />
+          <Property name="CreatedAt" type="DateTime" />
+        </Properties>
+      </Model>
+      
+      <Model name="Vaccination">
+        <Properties>
+          <Property name="VaccinationId" type="int" key="true" />
+          <Property name="PetId" type="int" />
+          <Property name="VaccineName" type="string" />
+          <Property name="Date" type="DateTime" />
+          <Property name="NextDue" type="DateTime" />
+        </Properties>
+      </Model>
+    </Models>
+
+    <Data>
+      <DbContext name="ApplicationDbContext">
+        <DbSets>
+          <DbSet name="Users" model="User" />
+          <DbSet name="Pets" model="Pet" />
+          <DbSet name="Products" model="Product" />
+          <DbSet name="Orders" model="Order" />
+          <DbSet name="OrderItems" model="OrderItem" />
+          <DbSet name="CartItems" model="CartItem" />
+          <DbSet name="AdoptionRequests" model="AdoptionRequest" />
+          <DbSet name="Areas" model="Area" />
+          <DbSet name="Reviews" model="Review" />
+          <DbSet name="Favorites" model="Favorite" />
+          <DbSet name="Messages" model="Message" />
+          <DbSet name="Vaccinations" model="Vaccination" />
+          <DbSet name="PetImages" model="PetImage" />
+          <DbSet name="ProductImages" model="ProductImage" />
+        </DbSets>
+      </DbContext>
+    </Data>
+
+    <Migrations>
+      <Migration name="20260326095552_InitialCreate" description="Initial database schema" />
+      <Migration name="20260328103643_Init" description="Additional schema updates" />
+      <Migration name="20260416052444_FixExistingPetOwnerIds" description="Fix pet owner IDs" />
+    </Migrations>
+  </Backend>
+
+  <Frontend>
+    <Pages>
+      <Page name="index.html" type="Home" />
+      <Page name="login.html" type="Authentication" />
+      <Page name="register.html" type="Authentication" />
+      <Page name="dashboard.html" type="User Dashboard" />
+      <Page name="admin.html" type="Admin Panel" />
+      <Page name="pet-listing.html" type="Pet Listing" />
+      <Page name="pet-details.html" type="Pet Details" />
+      <Page name="add-pet.html" type="Pet Management" />
+      <Page name="shop.html" type="E-commerce" />
+      <Page name="cart.html" type="E-commerce" />
+      <Page name="checkout.html" type="E-commerce" />
+      <Page name="checkout-form.html" type="E-commerce" />
+      <Page name="success.html" type="E-commerce" />
+      <Page name="orders.html" type="User Orders - Order History" />
+      <Page name="adoption-requests.html" type="User Adoption Requests" />
+      <Page name="profile.html" type="User Profile" />
+      <Page name="contact.html" type="Contact" />
+      <Page name="add-product.html" type="Product Management" />
+    </Pages>
+
+    <JavaScript>
+      <Module name="api.js" type="API Service">
+        <Methods>
+          <Method name="get" description="HTTP GET requests" />
+          <Method name="post" description="HTTP POST requests" />
+          <Method name="put" description="HTTP PUT requests" />
+          <Method name="delete" description="HTTP DELETE requests" />
+        </Methods>
+      </Module>
+      
+      <Module name="auth.js" type="Authentication">
+        <Methods>
+          <Method name="init" description="Initialize auth module" />
+          <Method name="login" description="User login" />
+          <Method name="register" description="User registration" />
+          <Method name="logout" description="User logout" />
+          <Method name="checkAuth" description="Check authentication status" />
+          <Method name="redirectAdminIfOnIndex" description="Redirect admin to dashboard" />
+        </Methods>
+      </Module>
+      
+      <Module name="main.js" type="Main Application">
+        <Methods>
+          <Method name="init" description="Initialize main application" />
+          <Method name="renderPets" description="Render pet listings" />
+          <Method name="renderProducts" description="Render product listings" />
+        </Methods>
+      </Module>
+      
+      <Module name="pets.js" type="Pet Management">
+        <Methods>
+          <Method name="loadPets" description="Load all pets" />
+          <Method name="renderPets" description="Render pet cards" />
+          <Method name="filterPets" description="Filter pets by criteria" />
+          <Method name="addPet" description="Add new pet" />
+          <Method name="updatePet" description="Update pet details" />
+          <Method name="deletePet" description="Delete pet" />
+        </Methods>
+      </Module>
+      
+      <Module name="products.js" type="Product Management">
+        <Methods>
+          <Method name="loadProducts" description="Load all products" />
+          <Method name="renderProducts" description="Render product cards" />
+          <Method name="filterProducts" description="Filter products by category" />
+          <Method name="addToCart" description="Add product to cart" />
+        </Methods>
+      </Module>
+      
+      <Module name="cart.js" type="Shopping Cart">
+        <Methods>
+          <Method name="init" description="Initialize cart" />
+          <Method name="renderCart" description="Render cart items" />
+          <Method name="updateQuantity" description="Update item quantity" />
+          <Method name="removeItem" description="Remove item from cart" />
+          <Method name="calculateTotal" description="Calculate cart total" />
+        </Methods>
+      </Module>
+      
+      <Module name="checkout.js" type="Checkout">
+        <Methods>
+          <Method name="init" description="Initialize checkout" />
+          <Method name="processOrder" description="Process order placement" />
+          <Method name="validateForm" description="Validate checkout form" />
+        </Methods>
+      </Module>
+      
+      <Module name="orders.js" type="Order Management">
+        <Methods>
+          <Method name="loadOrders" description="Load user orders" />
+          <Method name="renderOrders" description="Render order list" />
+          <Method name="viewOrderDetails" description="View order details" />
+        </Methods>
+      </Module>
+      
+      <Module name="admin.js" type="Admin Panel">
+        <Methods>
+          <Method name="init" description="Initialize admin panel" />
+          <Method name="showSection" description="Show admin section" />
+          <Method name="loadDashboardStats" description="Load dashboard statistics" />
+          <Method name="loadItems" description="Load items for management" />
+          <Method name="loadUsers" description="Load users for management" />
+          <Method name="loadOrders" description="Load orders for management" />
+          <Method name="loadAdoptionRequests" description="Load adoption requests" />
+          <Method name="renderAdoptionRequestsTable" description="Render adoption requests with Accept/Reject buttons" />
+          <Method name="updateAdoptionRequestStatus" description="Update adoption request status (Accept/Reject)" />
+          <Method name="addItem" description="Add new item" />
+          <Method name="updateItem" description="Update item" />
+          <Method name="deleteItem" description="Delete item" />
+          <Method name="addUser" description="Add new user" />
+          <Method name="updateUser" description="Update user" />
+          <Method name="deleteUser" description="Delete user" />
+          <Method name="updateOrderStatus" description="Update order status" />
+          <Method name="logout" description="Admin logout" />
+        </Methods>
+      </Module>
+      
+      <Module name="wishlist.js" type="Wishlist">
+        <Methods>
+          <Method name="loadFavorites" description="Load favorite pets" />
+          <Method name="addToFavorites" description="Add pet to favorites" />
+          <Method name="removeFromFavorites" description="Remove pet from favorites" />
+        </Methods>
+      </Module>
+      
+      <Module name="data.js" type="Mock Data">
+        <Description>Contains sample data for testing</Description>
+      </Module>
+      
+      <Module name="config.js" type="Configuration">
+        <Description>API base URL and configuration</Description>
+      </Module>
+      
+      <Module name="utils.js" type="Utilities">
+        <Methods>
+          <Method name="formatDate" description="Format dates" />
+          <Method name="formatCurrency" description="Format currency" />
+          <Method name="truncateText" description="Truncate long text" />
+          <Method name="isValidEmail" description="Validate email format" />
+          <Method name="isValidPhone" description="Validate phone number" />
+          <Method name="fileToBase64" description="Convert file to base64" />
+        </Methods>
+      </Module>
+    </JavaScript>
+
+    <Styles>
+      <File name="style.css" description="Main stylesheet with responsive design" />
+    </Styles>
+
+    <Assets>
+      <Folder name="Images" description="Static images directory" />
+    </Assets>
+  </Frontend>
+
+  <Architecture>
+    <Pattern>MVC (Model-View-Controller) with API-first approach</Pattern>
+    <Database>SQL Server with Entity Framework Core ORM</Database>
+    <API>RESTful API with JSON responses</API>
+    <Frontend>Vanilla JavaScript with SPA-like navigation</Frontend>
+    <Authentication>Custom token-based authentication</Authentication>
+    <CORS>Enabled for cross-origin requests</CORS>
+    <StaticFiles>Served from wwwroot directory</StaticFiles>
+  </Architecture>
+
+  <KeyFeatures>
+    <Feature>User registration and authentication</Feature>
+    <Feature>Pet listing and adoption system</Feature>
+    <Feature>E-commerce shop for pet products</Feature>
+    <Feature>Shopping cart and checkout</Feature>
+    <Feature>Order history for users</Feature>
+    <Feature>Admin panel for content management</Feature>
+    <Feature>Adoption request management with Accept/Reject functionality</Feature>
+    <Feature>User adoption requests tracking</Feature>
+    <Feature>User profiles</Feature>
+    <Feature>Favorites/wishlist functionality</Feature>
+    <Feature>Area-based search</Feature>
+    <Feature>Real-time order status updates</Feature>
+    <Feature>Responsive design for mobile and desktop</Feature>
+  </KeyFeatures>
+
+  <DatabaseSchema>
+    <Table name="Users">
+      <Columns>UserId, FirstName, LastName, Email, Password, Phone, City, Area, Pincode, Role, Avatar, IsVerified, CreatedAt</Columns>
+      <Relationships>One-to-Many with Pets, Products, Orders, AdoptionRequests</Relationships>
+    </Table>
+    
+    <Table name="Pets">
+      <Columns>PetId, Name, Type, Breed, Age, Gender, Description, ImageUrl, OwnerId, Status, CreatedAt</Columns>
+      <Relationships>Many-to-One with User, One-to-Many with PetImages, Vaccinations, AdoptionRequests, Reviews, Favorites</Relationships>
+    </Table>
+    
+    <Table name="Products">
+      <Columns>ProductId, Name, Category, Description, Price, Stock, PetType, SellerId, CreatedAt</Columns>
+      <Relationships>Many-to-One with User, One-to-Many with ProductImages, OrderItems, Reviews</Relationships>
+    </Table>
+    
+    <Table name="Orders">
+      <Columns>OrderId, UserId, FullName, Phone, Email, Address, City, Pincode, PaymentMethod, PaymentStatus, TotalAmount, OrderDate, Status</Columns>
+      <Relationships>Many-to-One with User, One-to-Many with OrderItems</Relationships>
+    </Table>
+    
+    <Table name="OrderItems">
+      <Columns>OrderItemId, OrderId, ProductId, Quantity, Price</Columns>
+      <Relationships>Many-to-One with Order, Many-to-One with Product</Relationships>
+    </Table>
+    
+    <Table name="AdoptionRequests">
+      <Columns>RequestId, PetId, AdopterId, Message, Status, CreatedAt</Columns>
+      <Relationships>Many-to-One with Pet, Many-to-One with User (as Adopter)</Relationships>
+    </Table>
+    
+    <Table name="Areas">
+      <Columns>AreaId, Name, City</Columns>
+    </Table>
+    
+    <Table name="Reviews">
+      <Columns>ReviewId, PetId, ProductId, UserId, Rating, Comment, CreatedAt</Columns>
+    </Table>
+    
+    <Table name="Favorites">
+      <Columns>FavoriteId, UserId, PetId, CreatedAt</Columns>
+    </Table>
+    
+    <Table name="Messages">
+      <Columns>MessageId, SenderId, ReceiverId, Content, IsRead, CreatedAt</Columns>
+    </Table>
+    
+    <Table name="Vaccinations">
+      <Columns>VaccinationId, PetId, VaccineName, Date, NextDue</Columns>
+    </Table>
+    
+    <Table name="PetImages">
+      <Columns>PetImageId, PetId, ImageUrl, IsPrimary</Columns>
+    </Table>
+    
+    <Table name="ProductImages">
+      <Columns>ProductImageId, ProductId, ImageUrl, IsPrimary</Columns>
+    </Table>
+  </DatabaseSchema>
+</Project>
